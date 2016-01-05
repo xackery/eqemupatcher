@@ -2,5 +2,5 @@
 EQEmu File Comparison and Patcher
 The intent of this patcher is a bit different than most. I noticed many people will take a server (let's say, P99) and try to play on another server, only to discover odd anomolies that are tough to figure out due to edits for P99 vs the current server's patch files.
 Most patchers focus on downloading the latest patch file and simply applying them, assuming the core files are in place from a vanilla-like status, which the above would not do.
-This patcher is made where it analyzes EVERY file with MD5, and runs a verification check to see if any files out not the proper MD5.
-If any are found to not be proper, the idea is to repair it for you.
+This patcher is made where it analyzes EVERY file with MD5 to find any files out of place.
+If any are found to not be proper, the goal is to patch them while staying legal.
