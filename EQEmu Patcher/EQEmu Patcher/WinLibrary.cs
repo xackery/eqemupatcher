@@ -53,11 +53,12 @@ namespace EQEmu_Patcher
             {
                 foreach (System.IO.FileInfo fi in files)
                 {
+
                     // In this example, we only access the existing FileInfo object. If we
                     // want to open, delete or modify the file, then
                     // a try-catch block is required here to handle the case
                     // where the file has been deleted since the call to TraverseTree().
-                    Console.WriteLine(fi.FullName);
+                    var md5 = UtilityLibrary.GetMD5(fi.FullName);
                 }
 
                 // Now find all the subdirectories under this directory.
