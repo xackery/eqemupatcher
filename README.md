@@ -7,5 +7,6 @@ Most patchers focus on downloading the latest patch file and simply applying the
 This patcher is made where it analyzes all critical-to-play files with MD5 to find any files that are out of place.
 If any are found to not be proper, it will notify and give options of resolution.
 
-I can't find Json .NET
+---
+# I can't find Json .NET
 right click on your project and select "manage nuget package". put json into the search, find it in the list and click "install"
