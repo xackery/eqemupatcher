@@ -16,5 +16,19 @@ namespace EQEmu_Patcher
         {
             InitializeComponent();
         }
+
+        private void MainForm_Load(object sender, EventArgs e)
+        {
+            try {
+                if (!UtilityLibrary.IsEverquestDirectory()) {
+                    MessageBox.Show("Rawr");
+                }
+            }
+            catch (UnauthorizedAccessException e)
+            {
+                MessageBox.Show("You need to run this program with Administrative Privileges");
+            }
+
+        }
     }
 }
