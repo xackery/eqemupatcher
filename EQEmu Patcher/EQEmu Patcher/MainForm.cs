@@ -74,7 +74,15 @@ namespace EQEmu_Patcher
                 
                 foreach (System.IO.FileInfo fi in files)
                 {
-                    
+                    if (fi.Name.Contains(".ini"))
+                    { //Skip INI files
+                        continue;
+                    }
+                    if (fi.Name == System.Diagnostics.Process.GetCurrentProcess().MainModule.FileName)
+                    { //Skip self EXE
+                        continue;
+                    }
+
                     // In this example, we only access the existing FileInfo object. If we
                     // want to open, delete or modify the file, then
                     // a try-catch block is required here to handle the case
