@@ -8,11 +8,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+//using System.Windows.Shell;
 
 namespace EQEmu_Patcher
 {
     public partial class MainForm : Form
     {
+       // TaskbarItemInfo tii = new TaskbarItemInfo();
         public MainForm()
         {
             InitializeComponent();
@@ -20,7 +22,10 @@ namespace EQEmu_Patcher
 
         private void MainForm_Load(object sender, EventArgs e)
         {
-
+           
+           // tii.ProgressState = TaskbarItemProgressState.Normal;
+          //  tii.ProgressValue = (double)50 /100;
+            
             //Read:
             /*
             var pv = JsonConvert.DeserializeObject<PatchVersion>(test);
@@ -35,13 +40,13 @@ namespace EQEmu_Patcher
             */
             try {
               
-             /* if (!UtilityLibrary.IsEverquestDirectory(AppDomain.CurrentDomain.BaseDirectory)) {
+              if (!UtilityLibrary.IsEverquestDirectory(AppDomain.CurrentDomain.BaseDirectory)) {
                     MessageBox.Show("Please run this patcher in your Everquest directory.");
                     Application.Exit();
                     return;
                 }
-                */
-        }
+                
+            }
             catch (UnauthorizedAccessException err)
             {
                 MessageBox.Show("You need to run this program with Administrative Privileges" + err.Message);
@@ -53,10 +58,10 @@ namespace EQEmu_Patcher
 
         System.Collections.Specialized.StringCollection log = new System.Collections.Specialized.StringCollection();
 
-        void WalkDirectoryTree(System.IO.DirectoryInfo root)
+        Dictionary<string, string> WalkDirectoryTree(System.IO.DirectoryInfo root)
         {
             System.IO.FileInfo[] files = null;
-            // First, process all the files directly under this folder
+            var fileMap = new Dictionary<string, string>();
             try
             {
                 files = root.GetFiles("*.*");
@@ -65,19 +70,14 @@ namespace EQEmu_Patcher
             // than the application provides.
             catch (UnauthorizedAccessException e)
             {
-                // This code just writes out the message and continues to recurse.
-                // You may decide to do something different here. For example, you
-                // can try to elevate your privileges and access the file again.
-                //log.Add(e.Message);
                 txtList.Text += e.Message +"\n";
-                return;
+                return fileMap;
             }
 
             catch (System.IO.DirectoryNotFoundException e)
             {
-                //Console.WriteLine(e.Message);
                 txtList.Text += e.Message + "\r\n";
-                return;
+                return fileMap;
             }
 
             if (files != null)
@@ -104,21 +104,37 @@ namespace EQEmu_Patcher
                     txtList.Text += fi.Name + ": " + md5 + "\r\n";
                     count++;
                     progressBar.Value = count;
+                    fileMap[fi.Name] = md5;
                     txtList.Refresh();
+                    updateTaskbarProgress();
                     Application.DoEvents();
                     
                 }
 
             }
+            return fileMap;
         }
 
         private void btnScan_Click(object sender, EventArgs e)
         {
           
+            var fileMap = WalkDirectoryTree(new System.IO.DirectoryInfo(AppDomain.CurrentDomain.BaseDirectory));
+            PatchVersion pv = new PatchVersion();
+            pv.RootFiles = fileMap;
+            txtList.Text = JsonConvert.SerializeObject(pv);
+        }
 
-//            JsonConvert.DeserializeObject<RootObject>(string json);
+        private void updateTaskbarProgress()
+        {
             
-            // WalkDirectoryTree(new System.IO.DirectoryInfo(AppDomain.CurrentDomain.BaseDirectory));
+            if (Environment.OSVersion.Version.Major < 6)
+            { //Only works on 6 or greater
+                return;
+            }
+            
+            
+           // tii.ProgressState = TaskbarItemProgressState.Normal;            
+           // tii.ProgressValue = (double)progressBar.Value / progressBar.Maximum;            
         }
     }
 }
