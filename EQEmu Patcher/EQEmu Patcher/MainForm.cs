@@ -19,14 +19,17 @@ namespace EQEmu_Patcher
 
         private void MainForm_Load(object sender, EventArgs e)
         {
+
             try {
-                if (!UtilityLibrary.IsEverquestDirectory()) {
-                    MessageBox.Show("Rawr");
+                if (!UtilityLibrary.IsEverquestDirectory(AppDomain.CurrentDomain.BaseDirectory)) {
+                    MessageBox.Show("Please run this patcher in your Everquest directory.");
+                    Application.Exit();
+                    return;
                 }
             }
-            catch (UnauthorizedAccessException e)
+            catch (UnauthorizedAccessException err)
             {
-                MessageBox.Show("You need to run this program with Administrative Privileges");
+                MessageBox.Show("You need to run this program with Administrative Privileges" + err.Message);
             }
 
         }

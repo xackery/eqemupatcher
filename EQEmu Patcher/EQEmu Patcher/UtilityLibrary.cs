@@ -28,10 +28,11 @@ namespace EQEmu_Patcher
             }
         }
 
-        public static bool IsEverquestDirectory()
+        public static bool IsEverquestDirectory(string path)
         {
-
-            var di = new System.IO.DirectoryInfo(System.Reflection.Assembly.GetEntryAssembly().Location);
+            //Application.Current.BaseDirectory
+            
+            var di = new System.IO.DirectoryInfo(path);
             //try {
             var files = di.GetFiles("eqgame.exe");
             //}
@@ -43,8 +44,7 @@ namespace EQEmu_Patcher
             // can try to elevate your privileges and access the file again.
             //    log.Add(e.Message);
             // }
-
-            return files != null;
+            return (files != null && files.Length > 0);                    
         }
     }
 }
