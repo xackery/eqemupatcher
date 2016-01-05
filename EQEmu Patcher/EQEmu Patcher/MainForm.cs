@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -20,20 +21,33 @@ namespace EQEmu_Patcher
         private void MainForm_Load(object sender, EventArgs e)
         {
 
+            //Read:
+            /*
+            var pv = JsonConvert.DeserializeObject<PatchVersion>(test);
+            MessageBox.Show(pv.ServerName);
+            */
+            //Write:
+            /*
+            PatchVersion pv = new PatchVersion();
+            pv.ServerName = "Test";
+            pv.RootFiles.Add("eqgame.exe", "12345test");
+            txtList.Text = JsonConvert.SerializeObject(pv);
+            */
             try {
-                if (!UtilityLibrary.IsEverquestDirectory(AppDomain.CurrentDomain.BaseDirectory)) {
+              
+             /* if (!UtilityLibrary.IsEverquestDirectory(AppDomain.CurrentDomain.BaseDirectory)) {
                     MessageBox.Show("Please run this patcher in your Everquest directory.");
                     Application.Exit();
                     return;
                 }
-            }
+                */
+        }
             catch (UnauthorizedAccessException err)
             {
                 MessageBox.Show("You need to run this program with Administrative Privileges" + err.Message);
                 return;
             }
-
-            txtList.Text = "";
+            
            
         }
 
@@ -42,7 +56,6 @@ namespace EQEmu_Patcher
         void WalkDirectoryTree(System.IO.DirectoryInfo root)
         {
             System.IO.FileInfo[] files = null;
-            System.IO.DirectoryInfo[] subDirs = null;
             // First, process all the files directly under this folder
             try
             {
@@ -96,21 +109,16 @@ namespace EQEmu_Patcher
                     
                 }
 
-                // Now find all the subdirectories under this directory.
-               /* subDirs = root.GetDirectories();
-
-                foreach (System.IO.DirectoryInfo dirInfo in subDirs)
-                {
-                    // Resursive call for each subdirectory.
-                    WalkDirectoryTree(dirInfo);
-                }
-                */
             }
         }
 
         private void btnScan_Click(object sender, EventArgs e)
         {
-            WalkDirectoryTree(new System.IO.DirectoryInfo(AppDomain.CurrentDomain.BaseDirectory));
+          
+
+//            JsonConvert.DeserializeObject<RootObject>(string json);
+            
+            // WalkDirectoryTree(new System.IO.DirectoryInfo(AppDomain.CurrentDomain.BaseDirectory));
         }
     }
 }
