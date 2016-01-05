@@ -16,8 +16,8 @@ namespace EQEmu_Patcher
         {
             var md5 = MD5.Create();
             var stream = File.OpenRead(filePath);
-            var bytes =  md5.ComputeHash(stream);
-            return bytes.ToString();
+            return BitConverter.ToString(md5.ComputeHash(stream)).Replace("-", string.Empty);
+            //return Encoding.UTF8.GetString(bytes);
         }
 
         public static string GetJson(string urlPath)
