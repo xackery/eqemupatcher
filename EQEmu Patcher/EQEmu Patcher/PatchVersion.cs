@@ -9,6 +9,7 @@ namespace EQEmu_Patcher
     public class PatchVersion
     {
         public string ServerName;
+        public string ClientVersion;
         public int ServerDateLastUpdate;
         public Dictionary<string, string> RootFiles = new Dictionary<string, string>();
         public Dictionary<string, string> ResourceFiles = new Dictionary<string, string>();
