@@ -28,6 +28,11 @@ namespace EQEmu_Patcher
             }
         }
 
+        public static System.Diagnostics.Process StartEverquest()
+        {
+            return System.Diagnostics.Process.Start("eqgame.exe", "patchme");
+        }
+
         public static bool IsEverquestDirectory(string path)
         {
             //Application.Current.BaseDirectory

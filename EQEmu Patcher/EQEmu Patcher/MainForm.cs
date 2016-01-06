@@ -41,8 +41,8 @@ namespace EQEmu_Patcher
             try {
               
               if (!UtilityLibrary.IsEverquestDirectory(AppDomain.CurrentDomain.BaseDirectory)) {
-                    MessageBox.Show("Please run this patcher in your Everquest directory.");
-                    Application.Exit();
+                  //  MessageBox.Show("Please run this patcher in your Everquest directory.");
+                   // this.Close();
                     return;
                 }
                
@@ -57,16 +57,7 @@ namespace EQEmu_Patcher
         }
 
         System.Diagnostics.Process process;
-        private void StartEverquest()
-        {
-            try {
-                process = System.Diagnostics.Process.Start("eqgame.exe", "patchme");
-            }
-            catch (Exception e) {
-                MessageBox.Show("There was an error while starting Everquest:" + e.Message);
-            }
-          
-        }
+      
 
         System.Collections.Specialized.StringCollection log = new System.Collections.Specialized.StringCollection();
 
@@ -76,7 +67,8 @@ namespace EQEmu_Patcher
             var fileMap = new Dictionary<string, string>();
             try
             {
-                files = root.GetFiles("*.*");
+                // files = root.GetFiles("*.*");
+                files = root.GetFiles("eqgame.exe");
             }
             // This is thrown if even one of the files requires permissions greater
             // than the application provides.
@@ -147,6 +139,16 @@ namespace EQEmu_Patcher
             
            // tii.ProgressState = TaskbarItemProgressState.Normal;            
            // tii.ProgressValue = (double)progressBar.Value / progressBar.Maximum;            
+        }
+
+        private void btnStart_Click(object sender, EventArgs e)
+        {
+            try {
+                process = UtilityLibrary.StartEverquest();
+            }
+            catch  (Exception err) {
+                MessageBox.Show("An error occured: "   + err.Message);
+            }
         }
     }
 }
