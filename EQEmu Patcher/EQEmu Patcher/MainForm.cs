@@ -14,6 +14,9 @@ namespace EQEmu_Patcher
 {
     public partial class MainForm : Form
     {
+
+        string clientVersion;
+
        // TaskbarItemInfo tii = new TaskbarItemInfo();
         public MainForm()
         {
@@ -22,7 +25,7 @@ namespace EQEmu_Patcher
 
         private void MainForm_Load(object sender, EventArgs e)
         {
-            MessageBox.Show("In case you didn't realize it, this patcher doesn't work yet. At this time it's purely under development for testing.");
+            //MessageBox.Show("In case you didn't realize it, this patcher doesn't work yet. At this time it's purely under development for testing.");
            // tii.ProgressState = TaskbarItemProgressState.Normal;
           //  tii.ProgressValue = (double)50 /100;
             
@@ -50,17 +53,21 @@ namespace EQEmu_Patcher
                 {
                     case "85218FC053D8B367F2B704BAC5E30ACC":
                         txtList.Text = "You seem to have put me in a Secrets of Feydwer client directory";
+                        clientVersion = "Secrets of Feydwer";
                         break;
                     case "859E89987AA636D36B1007F11C2CD6E0":
                         txtList.Text = "You seem to have put me in a Underfoot client directory";
+                        clientVersion = "Underfoot";
                         break;
                     case "BB42BC3870F59B6424A56FED3289C6D4":
                         txtList.Text = "You seem to have put me in a Titanium client directory";
+                        clientVersion = "Titanium";
                         break;
                     default:
                         txtList.Text = "I don't recognize the Everquest client in my directory, send this to Shin: " + hash;
                         break;
                 }
+                txtList.Text += "\r\n\r\nIf you wish to help out, press the scan button on the bottom left and wait for it to complete, then copy paste this data as an Issue on github!";
             }
             catch (UnauthorizedAccessException err)
             {
@@ -105,6 +112,7 @@ namespace EQEmu_Patcher
                 
                 foreach (System.IO.FileInfo fi in files)
                 {
+                    count++;
                     if (fi.Name.Contains(".ini"))
                     { //Skip INI files
                         continue;
@@ -120,7 +128,6 @@ namespace EQEmu_Patcher
                     // where the file has been deleted since the call to TraverseTree().
                     var md5 = UtilityLibrary.GetMD5(fi.FullName);
                     txtList.Text += fi.Name + ": " + md5 + "\r\n";
-                    count++;
                     progressBar.Value = count;
                     fileMap[fi.Name] = md5;
                     txtList.Refresh();
@@ -128,16 +135,21 @@ namespace EQEmu_Patcher
                     Application.DoEvents();
                     
                 }
-
+                //One final update of data
+                progressBar.Value = count;
+                txtList.Refresh();
+                updateTaskbarProgress();
+                Application.DoEvents();
             }
             return fileMap;
         }
 
         private void btnScan_Click(object sender, EventArgs e)
         {
-          
+            txtList.Text = "";
             var fileMap = WalkDirectoryTree(new System.IO.DirectoryInfo(AppDomain.CurrentDomain.BaseDirectory));
             PatchVersion pv = new PatchVersion();
+            pv.ClientVersion = clientVersion;
             pv.RootFiles = fileMap;
             txtList.Text = JsonConvert.SerializeObject(pv);
         }
