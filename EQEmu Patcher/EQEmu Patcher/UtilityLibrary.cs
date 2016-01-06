@@ -33,23 +33,16 @@ namespace EQEmu_Patcher
             return System.Diagnostics.Process.Start("eqgame.exe", "patchme");
         }
 
-        public static bool IsEverquestDirectory(string path)
+        //Pass the working directory (or later, you can pass another directory) and it returns a hash if the file is found
+        public static string GetEverquestExecutableHash(string path)
         {
-            //Application.Current.BaseDirectory
-            
             var di = new System.IO.DirectoryInfo(path);
-            //try {
             var files = di.GetFiles("eqgame.exe");
-            //}
-            //catch (UnauthorizedAccessException e)
-            //{
-
-            // This code just writes out the message and continues to recurse.
-            // You may decide to do something different here. For example, you
-            // can try to elevate your privileges and access the file again.
-            //    log.Add(e.Message);
-            // }
-            return (files != null && files.Length > 0);                    
+            if (files == null || files.Length == 0)
+            {
+                return "";
+            }
+            return UtilityLibrary.GetMD5(files[0].FullName);
         }
     }
 }

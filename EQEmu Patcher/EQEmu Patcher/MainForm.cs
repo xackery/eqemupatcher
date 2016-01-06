@@ -22,7 +22,7 @@ namespace EQEmu_Patcher
 
         private void MainForm_Load(object sender, EventArgs e)
         {
-          
+            MessageBox.Show("In case you didn't realize it, this patcher doesn't work yet. At this time it's purely under development for testing.");
            // tii.ProgressState = TaskbarItemProgressState.Normal;
           //  tii.ProgressValue = (double)50 /100;
             
@@ -39,13 +39,28 @@ namespace EQEmu_Patcher
             txtList.Text = JsonConvert.SerializeObject(pv);
             */
             try {
-              
-              if (!UtilityLibrary.IsEverquestDirectory(AppDomain.CurrentDomain.BaseDirectory)) {
-                  //  MessageBox.Show("Please run this patcher in your Everquest directory.");
-                   // this.Close();
+
+                var hash = UtilityLibrary.GetEverquestExecutableHash(AppDomain.CurrentDomain.BaseDirectory);
+                if (hash == "") { 
+                    MessageBox.Show("Please run this patcher in your Everquest directory.");
+                    this.Close();
                     return;
                 }
-               
+                switch (hash)
+                {
+                    case "85218FC053D8B367F2B704BAC5E30ACC":
+                        txtList.Text = "You seem to have put me in a Secrets of Feydwer client directory";
+                        break;
+                    case "859E89987AA636D36B1007F11C2CD6E0":
+                        txtList.Text = "You seem to have put me in a Underfoot client directory";
+                        break;
+                    case "BB42BC3870F59B6424A56FED3289C6D4":
+                        txtList.Text = "You seem to have put me in a Titanium client directory";
+                        break;
+                    default:
+                        txtList.Text = "I don't recognize the Everquest client in my directory, send this to Shin: " + hash;
+                        break;
+                }
             }
             catch (UnauthorizedAccessException err)
             {
@@ -67,8 +82,7 @@ namespace EQEmu_Patcher
             var fileMap = new Dictionary<string, string>();
             try
             {
-                // files = root.GetFiles("*.*");
-                files = root.GetFiles("eqgame.exe");
+                 files = root.GetFiles("*.*");
             }
             // This is thrown if even one of the files requires permissions greater
             // than the application provides.
