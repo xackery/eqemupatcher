@@ -22,7 +22,7 @@ namespace EQEmu_Patcher
 
         private void MainForm_Load(object sender, EventArgs e)
         {
-           
+          
            // tii.ProgressState = TaskbarItemProgressState.Normal;
           //  tii.ProgressValue = (double)50 /100;
             
@@ -45,7 +45,7 @@ namespace EQEmu_Patcher
                     Application.Exit();
                     return;
                 }
-                
+               
             }
             catch (UnauthorizedAccessException err)
             {
@@ -54,6 +54,18 @@ namespace EQEmu_Patcher
             }
             
            
+        }
+
+        System.Diagnostics.Process process;
+        private void StartEverquest()
+        {
+            try {
+                process = System.Diagnostics.Process.Start("eqgame.exe", "patchme");
+            }
+            catch (Exception e) {
+                MessageBox.Show("There was an error while starting Everquest:" + e.Message);
+            }
+          
         }
 
         System.Collections.Specialized.StringCollection log = new System.Collections.Specialized.StringCollection();
