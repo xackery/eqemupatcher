@@ -51,6 +51,7 @@
             this.txtList.Location = new System.Drawing.Point(13, 13);
             this.txtList.Multiline = true;
             this.txtList.Name = "txtList";
+            this.txtList.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.txtList.Size = new System.Drawing.Size(439, 279);
             this.txtList.TabIndex = 1;
             // 
@@ -86,7 +87,7 @@
             this.Controls.Add(this.txtList);
             this.Controls.Add(this.progressBar);
             this.Name = "MainForm";
-            this.Text = "Main";
+            this.Text = "EQEmu Patcher - Alpha v0.1";
             this.Load += new System.EventHandler(this.MainForm_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
