@@ -63,6 +63,11 @@ namespace EQEmu_Patcher
                         txtList.Text = "You seem to have put me in a Titanium client directory";
                         clientVersion = "Titanium";
                         break;
+                    case "368BB9F425C8A55030A63E606D184445":
+                    case "240C80800112ADA825C146D7349CE85B":
+                        txtList.Text = "You seem to have put me in a Reign of Fear client directory";
+                        clientVersion = "Reign of Fear";
+                        break;
                     default:
                         txtList.Text = "I don't recognize the Everquest client in my directory, send this to Shin: " + hash;
                         break;
