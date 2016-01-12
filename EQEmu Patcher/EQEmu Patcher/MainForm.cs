@@ -112,18 +112,17 @@ namespace EQEmu_Patcher
 
             if (files != null)
             {
-                var count = 0;
-                progressBar.Maximum = files.Length;
                 
                 foreach (System.IO.FileInfo fi in files)
                 {
-                    count++;
                     if (fi.Name.Contains(".ini"))
                     { //Skip INI files
+                        progressBar.Value++;
                         continue;
                     }
                     if (fi.Name == System.Diagnostics.Process.GetCurrentProcess().MainModule.FileName)
                     { //Skip self EXE
+                        progressBar.Value++;
                         continue;
                     }
 
@@ -133,7 +132,9 @@ namespace EQEmu_Patcher
                     // where the file has been deleted since the call to TraverseTree().
                     var md5 = UtilityLibrary.GetMD5(fi.FullName);
                     txtList.Text += fi.Name + ": " + md5 + "\r\n";
-                    progressBar.Value = count;
+                    if (progressBar.Maximum > progressBar.Value) {
+                        progressBar.Value++;
+                    }
                     fileMap[fi.Name] = md5;
                     txtList.Refresh();
                     updateTaskbarProgress();
@@ -141,7 +142,10 @@ namespace EQEmu_Patcher
                     
                 }
                 //One final update of data
-                progressBar.Value = count;
+                if (progressBar.Maximum > progressBar.Value)
+                {
+                    progressBar.Value++;
+                }
                 txtList.Refresh();
                 updateTaskbarProgress();
                 Application.DoEvents();
@@ -149,13 +153,71 @@ namespace EQEmu_Patcher
             return fileMap;
         }
 
+        private int getFileCount(System.IO.DirectoryInfo root) {
+            int count = 0;
+                           
+            System.IO.FileInfo[] files = null;
+            try
+            {
+                files = root.GetFiles("*.*");
+            }
+            // This is thrown if even one of the files requires permissions greater
+            // than the application provides.
+            catch (UnauthorizedAccessException e)
+            {
+                txtList.Text += e.Message + "\n";
+                return 0;
+            }
+
+            catch (System.IO.DirectoryNotFoundException e)
+            {
+                txtList.Text += e.Message + "\r\n";
+                return 0;
+            }
+
+            if (files != null)
+            {
+              return files.Length;
+            }
+            return count;
+        }
+
         private void btnScan_Click(object sender, EventArgs e)
         {
             txtList.Text = "";
-            var fileMap = WalkDirectoryTree(new System.IO.DirectoryInfo(AppDomain.CurrentDomain.BaseDirectory));
+            progressBar.Maximum = getFileCount(new System.IO.DirectoryInfo(AppDomain.CurrentDomain.BaseDirectory));
+            progressBar.Maximum += getFileCount(new System.IO.DirectoryInfo(AppDomain.CurrentDomain.BaseDirectory + "\\Resources"));
+            progressBar.Maximum += getFileCount(new System.IO.DirectoryInfo(AppDomain.CurrentDomain.BaseDirectory + "\\sounds"));
+            progressBar.Maximum += getFileCount(new System.IO.DirectoryInfo(AppDomain.CurrentDomain.BaseDirectory + "\\SpellEffects"));
+            progressBar.Maximum += getFileCount(new System.IO.DirectoryInfo(AppDomain.CurrentDomain.BaseDirectory + "\\storyline"));
+          //  progressBar.Maximum += getFileCount(new System.IO.DirectoryInfo(AppDomain.CurrentDomain.BaseDirectory + "\\uifiles"));
+          //  progressBar.Maximum += getFileCount(new System.IO.DirectoryInfo(AppDomain.CurrentDomain.BaseDirectory + "\\atlas"));
+            txtList.Text = "Max:" + progressBar.Maximum;
             PatchVersion pv = new PatchVersion();
             pv.ClientVersion = clientVersion;
+            //Root
+            var fileMap = WalkDirectoryTree(new System.IO.DirectoryInfo(AppDomain.CurrentDomain.BaseDirectory));
             pv.RootFiles = fileMap;
+            //Resources
+            fileMap = WalkDirectoryTree(new System.IO.DirectoryInfo(AppDomain.CurrentDomain.BaseDirectory + "\\Resources"));
+            pv.ResourceFiles = fileMap;
+            //Sounds
+            fileMap = WalkDirectoryTree(new System.IO.DirectoryInfo(AppDomain.CurrentDomain.BaseDirectory + "\\sounds"));
+            pv.SoundFiles = fileMap;
+            //SpellEffects
+            fileMap = WalkDirectoryTree(new System.IO.DirectoryInfo(AppDomain.CurrentDomain.BaseDirectory + "\\SpellEffects"));
+            pv.SpellEffectFiles = fileMap;
+            //Storyline
+            fileMap = WalkDirectoryTree(new System.IO.DirectoryInfo(AppDomain.CurrentDomain.BaseDirectory + "\\storyline"));
+            pv.StorylineFiles = fileMap;
+           /*
+            //UIFiles
+            fileMap = WalkDirectoryTree(new System.IO.DirectoryInfo(AppDomain.CurrentDomain.BaseDirectory + "\\uifiles"));
+            pv.UIFiles = fileMap;
+            //Atlas
+            fileMap = WalkDirectoryTree(new System.IO.DirectoryInfo(AppDomain.CurrentDomain.BaseDirectory + "\\atlas"));
+            pv.AtlasFiles = fileMap;
+            */
             txtList.Text = JsonConvert.SerializeObject(pv);
         }
 
@@ -183,3 +245,5 @@ namespace EQEmu_Patcher
         }
     }
 }
+
+

@@ -17,7 +17,8 @@ namespace EQEmu_Patcher
         public Dictionary<string, string> SoundFiles = new Dictionary<string, string>();
         public Dictionary<string, string> SpellEffectFiles = new Dictionary<string, string>();
         public Dictionary<string, string> StorylineFiles = new Dictionary<string, string>();
-        public Dictionary<string, string> UIFiles = new Dictionary<string, string>(); //uifiles
-        
+     //   public Dictionary<string, string> UIFiles = new Dictionary<string, string>();
+     //   public Dictionary<string, string> AtlasFiles = new Dictionary<string, string>();
+
     }
 }
