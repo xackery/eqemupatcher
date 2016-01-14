@@ -64,11 +64,18 @@ namespace EQEmu_Patcher
                         clientVersion = "Titanium";
                         break;
                     case "368BB9F425C8A55030A63E606D184445":
+                        txtList.Text = "You seem to have put me in a Reign of Fear client directory";
+                        clientVersion = "Rain of Fear";
+                        break;
                     case "240C80800112ADA825C146D7349CE85B":
                         txtList.Text = "You seem to have put me in a Reign of Fear client directory";
-                        clientVersion = "Reign of Fear";
+                        clientVersion = "Rain of Fear 2";
                         break;
                     default:
+                        if (MessageBox.Show("I don't recognize the EQ client in this directory, open a web page to let the devs know?", "Visit", MessageBoxButtons.YesNo, MessageBoxIcon.Asterisk) == DialogResult.Yes)
+                        {
+                            System.Diagnostics.Process.Start("https://github.com/Xackery/eqemupatcher/issues/new?title=A+New+EQClient+Found&body=Hi+I+Found+A+New+Client!+Hash:+"+hash);
+                        }
                         txtList.Text = "I don't recognize the Everquest client in my directory, send this to Shin: " + hash;
                         break;
                 }
