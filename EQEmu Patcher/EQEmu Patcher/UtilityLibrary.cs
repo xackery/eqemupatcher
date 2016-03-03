@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Security.Cryptography;
 using System.IO;
 using System.Net;
+using System.Text;
 
 namespace EQEmu_Patcher
 {
@@ -33,6 +34,35 @@ namespace EQEmu_Patcher
             return System.Diagnostics.Process.Start("eqgame.exe", "patchme");
         }
 
+
+        public static string GetSHA1(string filePath)
+        {
+            //SHA1 sha = new SHA1CryptoServiceProvider();            
+            //var stream = File.OpenRead(filePath);
+            //return BitConverter.ToString(sha.ComputeHash(stream)).Replace("-", string.Empty); ;
+            /*Encoding enc = Encoding.UTF8;
+
+            var sha = SHA1.Create();
+            var stream = File.OpenRead(filePath);
+
+            string hash = "commit " + stream.Length + "\0";
+            return enc.GetString(sha.ComputeHash(stream));
+
+            return BitConverter.ToString(sha.ComputeHash(stream));*/
+            Encoding enc = Encoding.UTF8;
+
+            string commitBody = File.OpenText(filePath).ReadToEnd();
+            StringBuilder sb = new StringBuilder();
+            sb.Append("commit " + Encoding.UTF8.GetByteCount(commitBody));
+            sb.Append("\0");
+            sb.Append(commitBody);
+
+            var sss = SHA1.Create();
+            var bytez = Encoding.UTF8.GetBytes(sb.ToString());
+            return BitConverter.ToString(sss.ComputeHash(bytez));
+            //var myssh = enc.GetString(sss.ComputeHash(bytez));
+            //return myssh;
+        }
         //Pass the working directory (or later, you can pass another directory) and it returns a hash if the file is found
         public static string GetEverquestExecutableHash(string path)
         {
@@ -42,7 +72,7 @@ namespace EQEmu_Patcher
             {
                 return "";
             }
-            return UtilityLibrary.GetMD5(files[0].FullName);
+            return UtilityLibrary.GetSHA1(files[0].FullName);
         }
     }
 }
