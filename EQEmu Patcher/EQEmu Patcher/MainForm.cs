@@ -30,7 +30,7 @@ namespace EQEmu_Patcher
         {
             buildClientVersions();
             IniLibrary.Load();
-
+            detectClientVersion();
             if (IniLibrary.instance.ClientVersion == VersionTypes.Unknown)
             {
                 detectClientVersion();
@@ -280,10 +280,14 @@ namespace EQEmu_Patcher
         private void btnStart_Click(object sender, EventArgs e)
         {
             try {
+                
                 process = UtilityLibrary.StartEverquest();
                 if (process != null)
                 {
                     this.Close();
+                } else
+                {
+                    MessageBox.Show("The process failed to start");
                 }
             }
             catch  (Exception err) {

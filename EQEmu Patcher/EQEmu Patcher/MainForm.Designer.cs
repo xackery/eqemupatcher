@@ -39,9 +39,10 @@
             // 
             this.progressBar.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.progressBar.Location = new System.Drawing.Point(93, 299);
+            this.progressBar.Location = new System.Drawing.Point(140, 460);
+            this.progressBar.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.progressBar.Name = "progressBar";
-            this.progressBar.Size = new System.Drawing.Size(278, 23);
+            this.progressBar.Size = new System.Drawing.Size(417, 35);
             this.progressBar.TabIndex = 0;
             // 
             // txtList
@@ -49,19 +50,21 @@
             this.txtList.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtList.Location = new System.Drawing.Point(13, 13);
+            this.txtList.Location = new System.Drawing.Point(20, 20);
+            this.txtList.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.txtList.Multiline = true;
             this.txtList.Name = "txtList";
             this.txtList.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txtList.Size = new System.Drawing.Size(439, 279);
+            this.txtList.Size = new System.Drawing.Size(656, 427);
             this.txtList.TabIndex = 1;
             // 
             // btnScan
             // 
             this.btnScan.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnScan.Location = new System.Drawing.Point(12, 298);
+            this.btnScan.Location = new System.Drawing.Point(18, 458);
+            this.btnScan.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.btnScan.Name = "btnScan";
-            this.btnScan.Size = new System.Drawing.Size(75, 24);
+            this.btnScan.Size = new System.Drawing.Size(112, 37);
             this.btnScan.TabIndex = 2;
             this.btnScan.Text = "Scan";
             this.btnScan.UseVisualStyleBackColor = true;
@@ -70,9 +73,10 @@
             // btnStart
             // 
             this.btnStart.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnStart.Location = new System.Drawing.Point(377, 299);
+            this.btnStart.Location = new System.Drawing.Point(566, 460);
+            this.btnStart.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.btnStart.Name = "btnStart";
-            this.btnStart.Size = new System.Drawing.Size(75, 24);
+            this.btnStart.Size = new System.Drawing.Size(112, 37);
             this.btnStart.TabIndex = 3;
             this.btnStart.Text = "Play";
             this.btnStart.UseVisualStyleBackColor = true;
@@ -80,16 +84,17 @@
             // 
             // MainForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(464, 333);
+            this.ClientSize = new System.Drawing.Size(696, 512);
             this.Controls.Add(this.btnStart);
             this.Controls.Add(this.btnScan);
             this.Controls.Add(this.txtList);
             this.Controls.Add(this.progressBar);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.Name = "MainForm";
-            this.Text = "EQEmu Patcher - Alpha v0.1";
+            this.Text = "EQEmu Patcher - Alpha v0.11";
             this.Load += new System.EventHandler(this.MainForm_Load);
             this.ResumeLayout(false);
             this.PerformLayout();

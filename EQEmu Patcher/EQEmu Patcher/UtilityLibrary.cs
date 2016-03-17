@@ -72,7 +72,8 @@ namespace EQEmu_Patcher
             {
                 return "";
             }
-            return UtilityLibrary.GetSHA1(files[0].FullName);
+            return UtilityLibrary.GetMD5(files[0].FullName);
+         //   return UtilityLibrary.GetSHA1(files[0].FullName);
         }
     }
 }
