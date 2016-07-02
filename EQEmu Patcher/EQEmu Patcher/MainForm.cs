@@ -28,6 +28,14 @@ namespace EQEmu_Patcher
 
         private void MainForm_Load(object sender, EventArgs e)
         {
+            if (this.Width < 450) {
+                this.Width = 450;
+            }
+            if (this.Height < 550)
+            {
+                this.Height = 550;
+            }
+            Console.WriteLine(this.Width + " vs " + splashLogo.Width);
             buildClientVersions();
             IniLibrary.Load();
             detectClientVersion();
