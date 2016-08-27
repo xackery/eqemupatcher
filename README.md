@@ -1,6 +1,6 @@
 # eqemupatcher
 EQEmu File Comparison and Patcher - [Download here](https://github.com/Xackery/eqemupatcher/releases)
-![alt tag](http://i.imgur.com/RMQhsK3.png)
+![alt tag](http://i.imgur.com/wR0SiA8.png)
 ---
 The intent of this patcher is a bit different than most. I noticed many people will take a server (let's say, P99) and try to play on another server, only to discover odd anomolies that are tough to figure out due to edits for P99 vs the current server's patch files.
 Most patchers focus on downloading the latest patch file and simply applying them, assuming the core files are in place from a vanilla-like status, which in the above use case would cause new side effects.
