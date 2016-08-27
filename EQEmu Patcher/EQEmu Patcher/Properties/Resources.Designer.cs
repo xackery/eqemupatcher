@@ -63,6 +63,16 @@ namespace EQEmu_Patcher.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap brokenmirror {
+            get {
+                object obj = ResourceManager.GetObject("brokenmirror", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap rof {
             get {
                 object obj = ResourceManager.GetObject("rof", resourceCulture);

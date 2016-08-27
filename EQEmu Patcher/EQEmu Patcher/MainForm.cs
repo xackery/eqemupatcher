@@ -150,23 +150,34 @@ namespace EQEmu_Patcher
                 {
                     case "85218FC053D8B367F2B704BAC5E30ACC":
                         currentVersion = VersionTypes.Secrets_Of_Feydwer;
+                        splashLogo.Image = Properties.Resources.sof;
                         break;
                     case "859E89987AA636D36B1007F11C2CD6E0":
+                    case "EF07EE6649C9A2BA2EFFC3F346388E1E78B44B48": //one of the torrented uf clients, used by B&R too
                         currentVersion = VersionTypes.Underfoot;
+                        splashLogo.Image = Properties.Resources.underfoot;
                         break;
-                    case "BB42BC3870F59B6424A56FED3289C6D4":
+                    case "A9DE1B8CC5C451B32084656FCACF1103": //p99 client
+                    case "BB42BC3870F59B6424A56FED3289C6D4": //vanilla titanium
                         currentVersion = VersionTypes.Titanium;
+                        splashLogo.Image = Properties.Resources.titanium;
                         break;
                     case "368BB9F425C8A55030A63E606D184445":
                         currentVersion = VersionTypes.Rain_Of_Fear;
+                        splashLogo.Image = Properties.Resources.rof;
                         break;
                     case "240C80800112ADA825C146D7349CE85B":
+                    case "A057A23F030BAA1C4910323B131407105ACAD14D": //This is a custom ROF2 from a torrent download
                         currentVersion = VersionTypes.Rain_Of_Fear_2;
+                        splashLogo.Image = Properties.Resources.rof;
+                        break;
+                    case "6BFAE252C1A64FE8A3E176CAEE7AAE60": //This is one of the live EQ binaries.
+                        currentVersion = VersionTypes.Broken_Mirror;
+                        splashLogo.Image = Properties.Resources.brokenmirror;
                         break;
                     default:
                         currentVersion = VersionTypes.Unknown;
                         break;
-
                 }
                 if (currentVersion == VersionTypes.Unknown)
                 {
@@ -180,8 +191,9 @@ namespace EQEmu_Patcher
                 {
                     txtList.Text = "You seem to have put me in a " + clientVersions[currentVersion].FullName + " client directory";
                 }
-
-
+                
+                //MessageBox.Show(""+currentVersion);
+                
                 txtList.Text += "\r\n\r\nIf you wish to help out, press the scan button on the bottom left and wait for it to complete, then copy paste this data as an Issue on github!";
             }
             catch (UnauthorizedAccessException err)
@@ -201,7 +213,7 @@ namespace EQEmu_Patcher
             clientVersions.Add(VersionTypes.Rain_Of_Fear, new ClientVersion("Rain of Fear", "rof"));
             clientVersions.Add(VersionTypes.Rain_Of_Fear_2, new ClientVersion("Rain of Fear 2", "rof2"));
             clientVersions.Add(VersionTypes.Underfoot, new ClientVersion("Underfoot", "underfoot"));
-
+            clientVersions.Add(VersionTypes.Broken_Mirror, new ClientVersion("Broken Mirror", "brokenmirror"));
         }
 
         private int getFileCount(System.IO.DirectoryInfo root) {
@@ -287,20 +299,19 @@ namespace EQEmu_Patcher
 
         private void btnStart_Click(object sender, EventArgs e)
         {
-            try {
-                
+            try {                
                 process = UtilityLibrary.StartEverquest();
-                if (process != null)
-                {
-                    this.Close();
-                } else
-                {
-                    MessageBox.Show("The process failed to start");
-                }
+                if (process != null) this.Close();
+                else MessageBox.Show("The process failed to start");
             }
             catch  (Exception err) {
-                MessageBox.Show("An error occured: "   + err.Message);
+                MessageBox.Show("An error occured while trying to start everquest: " + err.Message);
             }
+        }
+
+        private void btnSettings_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

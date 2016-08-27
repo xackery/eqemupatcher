@@ -14,7 +14,8 @@ namespace EQEmu_Patcher
         Rain_Of_Fear_2,
         Seeds_Of_Destruction,
         Underfoot,
-        Secrets_Of_Feydwer
+        Secrets_Of_Feydwer,
+        Broken_Mirror
     }
 
     class ClientVersion
