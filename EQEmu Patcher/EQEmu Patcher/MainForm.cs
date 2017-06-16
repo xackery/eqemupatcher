@@ -172,6 +172,7 @@ namespace EQEmu_Patcher
                         splashLogo.Image = Properties.Resources.rof;
                         break;
                     case "6BFAE252C1A64FE8A3E176CAEE7AAE60": //This is one of the live EQ binaries.
+                    case "AD970AD6DB97E5BB21141C205CAD6E68": //2016/08/27
                         currentVersion = VersionTypes.Broken_Mirror;
                         splashLogo.Image = Properties.Resources.brokenmirror;
                         break;
