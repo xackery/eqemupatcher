@@ -66,7 +66,6 @@
             this.btnScan.TabIndex = 2;
             this.btnScan.Text = "Scan";
             this.btnScan.UseVisualStyleBackColor = true;
-            this.btnScan.Visible = false;
             this.btnScan.Click += new System.EventHandler(this.btnScan_Click);
             // 
             // btnStart
@@ -83,7 +82,7 @@
             // btnSettings
             // 
             this.btnSettings.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnSettings.Location = new System.Drawing.Point(10, 484);
+            this.btnSettings.Location = new System.Drawing.Point(202, 484);
             this.btnSettings.Name = "btnSettings";
             this.btnSettings.Size = new System.Drawing.Size(75, 24);
             this.btnSettings.TabIndex = 5;
