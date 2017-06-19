@@ -18,6 +18,17 @@ namespace EQEmu_Patcher
     public partial class MainForm : Form
     {
 
+        /****
+         *  EDIT THESE VARIABLES FOR EACH SERVER
+         * 
+         ****/
+        public static string filelistUrl = "http://rebuildeq.com/patch/filelist.yml";
+        public static bool defaultAutoPlay = true; //When a user runs this first time, what should Autoplay be set to?
+        public static bool defaultAutoPatch = false; //When a user runs this first time, what should Autopatch be set to?
+        //*** END OF EDIT ***
+
+
+        bool isLoading;
         private Dictionary<VersionTypes, ClientVersion> clientVersions = new Dictionary<VersionTypes, ClientVersion>();
 
         VersionTypes currentVersion;
@@ -30,6 +41,12 @@ namespace EQEmu_Patcher
 
         private void MainForm_Load(object sender, EventArgs e)
         {
+            if (MainForm.defaultAutoPlay || MainForm.defaultAutoPatch)
+            {
+                Console.WriteLine("Auto default enabled");
+            }
+
+            isLoading = true;
             txtList.Visible = false;
             splashLogo.Visible = true;
             if (this.Width < 432) {
@@ -54,7 +71,7 @@ namespace EQEmu_Patcher
                 IniLibrary.Save();
             }
             
-            DownloadFile("http://rebuildeq.com/patch/filelist.yml", "filelist.yml");
+            DownloadFile(filelistUrl, "filelist.yml");
             txtList.Visible = false;
             splashLogo.Visible = true;
             FileList filelist;
@@ -78,6 +95,7 @@ namespace EQEmu_Patcher
             }
             chkAutoPlay.Checked = (IniLibrary.instance.AutoPlay == "true");
             chkAutoPatch.Checked = (IniLibrary.instance.AutoPatch == "true");
+            isLoading = false;
         }
 
         System.Diagnostics.Process process;
@@ -411,6 +429,19 @@ namespace EQEmu_Patcher
                     }
                 }
             }
+
+            if (filelist.deletes.Count > 0)
+            {
+                foreach (var entry in filelist.deletes)
+                {
+                    if (File.Exists(entry.name))
+                    {
+                        LogEvent("Deleting " + entry.name + "...");
+                        File.Delete(entry.name);
+                    }
+                }
+            }
+
             if (filesToDownload.Count == 0)
             {
                 LogEvent("Up to date with patch "+filelist.version+".");
@@ -452,12 +483,15 @@ namespace EQEmu_Patcher
 
         private void chkAutoPlay_CheckedChanged(object sender, EventArgs e)
         {
+            if (isLoading) return;
             IniLibrary.instance.AutoPlay = (chkAutoPlay.Checked) ? "true" : "false";
+            if (chkAutoPlay.Checked) LogEvent("To disable autoplay: edit eqemupatcher.yml or wait until next patch.");
             IniLibrary.Save();
         }
 
         private void chkAutoPatch_CheckedChanged(object sender, EventArgs e)
         {
+            if (isLoading) return;
             IniLibrary.instance.AutoPatch = (chkAutoPatch.Checked) ? "true" : "false";
             IniLibrary.Save();
         }
