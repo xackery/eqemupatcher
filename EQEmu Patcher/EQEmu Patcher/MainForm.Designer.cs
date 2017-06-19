@@ -34,6 +34,8 @@
             this.btnStart = new System.Windows.Forms.Button();
             this.splashLogo = new System.Windows.Forms.PictureBox();
             this.btnCheck = new System.Windows.Forms.Button();
+            this.chkAutoPlay = new System.Windows.Forms.CheckBox();
+            this.chkAutoPatch = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.splashLogo)).BeginInit();
             this.SuspendLayout();
             // 
@@ -96,11 +98,35 @@
             this.btnCheck.UseVisualStyleBackColor = true;
             this.btnCheck.Click += new System.EventHandler(this.btnCheck_Click);
             // 
+            // chkAutoPlay
+            // 
+            this.chkAutoPlay.AutoSize = true;
+            this.chkAutoPlay.Location = new System.Drawing.Point(238, 463);
+            this.chkAutoPlay.Name = "chkAutoPlay";
+            this.chkAutoPlay.Size = new System.Drawing.Size(71, 17);
+            this.chkAutoPlay.TabIndex = 7;
+            this.chkAutoPlay.Text = "Auto Play";
+            this.chkAutoPlay.UseVisualStyleBackColor = true;
+            this.chkAutoPlay.CheckedChanged += new System.EventHandler(this.chkAutoPlay_CheckedChanged);
+            // 
+            // chkAutoPatch
+            // 
+            this.chkAutoPatch.AutoSize = true;
+            this.chkAutoPatch.Location = new System.Drawing.Point(113, 463);
+            this.chkAutoPatch.Name = "chkAutoPatch";
+            this.chkAutoPatch.Size = new System.Drawing.Size(79, 17);
+            this.chkAutoPatch.TabIndex = 8;
+            this.chkAutoPatch.Text = "Auto Patch";
+            this.chkAutoPatch.UseVisualStyleBackColor = true;
+            this.chkAutoPatch.CheckedChanged += new System.EventHandler(this.chkAutoPatch_CheckedChanged);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(416, 572);
+            this.Controls.Add(this.chkAutoPatch);
+            this.Controls.Add(this.chkAutoPlay);
             this.Controls.Add(this.txtList);
             this.Controls.Add(this.btnStart);
             this.Controls.Add(this.btnCheck);
@@ -126,6 +152,8 @@
         private System.Windows.Forms.Button btnStart;
         private System.Windows.Forms.PictureBox splashLogo;
         private System.Windows.Forms.Button btnCheck;
+        private System.Windows.Forms.CheckBox chkAutoPlay;
+        private System.Windows.Forms.CheckBox chkAutoPatch;
     }
 }
 

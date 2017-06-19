@@ -58,6 +58,7 @@ namespace EQEmu_Patcher
             txtList.Visible = false;
             splashLogo.Visible = true;
             FileList filelist;
+            
 
             using (var input = File.OpenText("filelist.yml"))
             {
@@ -75,7 +76,8 @@ namespace EQEmu_Patcher
             {
                 if (IniLibrary.instance.AutoPlay.ToLower() == "true") PlayGame();
             }
-
+            chkAutoPlay.Checked = (IniLibrary.instance.AutoPlay == "true");
+            chkAutoPatch.Checked = (IniLibrary.instance.AutoPatch == "true");
         }
 
         System.Diagnostics.Process process;
@@ -431,7 +433,7 @@ namespace EQEmu_Patcher
                 curBytes += entry.size;
             }
             progressBar.Value = progressBar.Maximum;
-            LogEvent("Complete!");
+            LogEvent("Complete! Press Play to begin.");
             IniLibrary.instance.LastPatchedVersion = filelist.version;
             IniLibrary.Save();
             btnCheck.BackColor = SystemColors.Control;
@@ -446,6 +448,18 @@ namespace EQEmu_Patcher
             }
             Console.WriteLine(text);
             txtList.AppendText(text + "\r\n");
+        }
+
+        private void chkAutoPlay_CheckedChanged(object sender, EventArgs e)
+        {
+            IniLibrary.instance.AutoPlay = (chkAutoPlay.Checked) ? "true" : "false";
+            IniLibrary.Save();
+        }
+
+        private void chkAutoPatch_CheckedChanged(object sender, EventArgs e)
+        {
+            IniLibrary.instance.AutoPatch = (chkAutoPatch.Checked) ? "true" : "false";
+            IniLibrary.Save();
         }
     }
     public class FileList
