@@ -20,7 +20,7 @@ namespace EQEmu_Patcher
             {
                 using (var client = new WebClient())
                 {
-                    client.Encoding = System.Text.Encoding.UTF8;
+                    client.Encoding = Encoding.UTF8;
                     client.DownloadFile(url, outFile);
                 }
             } catch( IOException ie)
@@ -54,7 +54,7 @@ namespace EQEmu_Patcher
 
                     for (int i = 0; i < hash.Length; i++)
                     {
-                        sb.Append(hash[i].ToString("x2"));
+                        sb.Append(hash[i].ToString("X2"));
                     }
 
                     return sb.ToString();
@@ -114,7 +114,6 @@ namespace EQEmu_Patcher
                 return "";
             }
             return UtilityLibrary.GetMD5(files[0].FullName);
-         //   return UtilityLibrary.GetSHA1(files[0].FullName);
         }
     }
 }

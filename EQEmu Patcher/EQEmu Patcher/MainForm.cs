@@ -31,8 +31,8 @@ namespace EQEmu_Patcher
 
         private void MainForm_Load(object sender, EventArgs e)
         {
-            if (this.Width < 450) {
-                this.Width = 450;
+            if (this.Width < 432) {
+                this.Width = 432;
             }
             if (this.Height < 550)
             {
@@ -357,6 +357,12 @@ namespace EQEmu_Patcher
                     }
                 }
             }
+            if (filesToDownload.Count == 0)
+            {
+                progressBar.Maximum = progressBar.Value = 1;
+                return;
+            }
+
             Console.WriteLine("Downloading " + totalBytes + " bytes for " + filesToDownload.Count + " files...");
             int curBytes = 0;
             progressBar.Maximum = totalBytes;
@@ -369,7 +375,7 @@ namespace EQEmu_Patcher
                 DownloadFile(url, entry.name);
                 curBytes += entry.size;                
             }
-        }
+        }        
 
         private void DownloadFile(string url, string path)
         {
