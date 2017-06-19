@@ -53,9 +53,9 @@ namespace EQEmu_Patcher
                 IniLibrary.instance.ClientVersion = currentVersion;
                 IniLibrary.Save();
             }
-            /*
-             * DownloadFile("http://rebuildeq.com/patch/filelist.yml", "filelist.yml");             
-            */
+
+            //DownloadFile("https://storage.googleapis.com/rebuildeq/filelist.yml", "filelist.yml");             
+
         }
 
         System.Diagnostics.Process process;
@@ -347,9 +347,10 @@ namespace EQEmu_Patcher
                 } else
                 {
                     var md5 = UtilityLibrary.GetMD5(path);
-                    Console.WriteLine(entry.name + ": " + md5 + " vs " + entry.md5);
-                    if (md5 != entry.md5)
+                    
+                    if (md5.ToUpper() != entry.md5.ToUpper())
                     {
+                        Console.WriteLine(entry.name + ": " + md5 + " vs " + entry.md5);
                         filesToDownload.Add(entry);
                         if (entry.size < 1) totalBytes += 1;
                         else totalBytes += entry.size;
@@ -358,18 +359,21 @@ namespace EQEmu_Patcher
             }
             Console.WriteLine("Downloading " + totalBytes + " bytes for " + filesToDownload.Count + " files...");
             int curBytes = 0;
+            progressBar.Maximum = totalBytes;
+            progressBar.Value = 0;
             foreach (var entry in filesToDownload)
             {
-                progressBar.Maximum = totalBytes;
-                progressBar.Value = curBytes;
-                Console.WriteLine("Downloading " + entry.name + "...");
-                DownloadFile(filelist.downloadprefix + entry.name, entry.name);
-
+                progressBar.Value = (curBytes > totalBytes) ? totalBytes : curBytes;
+                string url = filelist.downloadprefix + entry.name.Replace("\\", "/");
+                Console.WriteLine("Downloading " + url + "...");
+                DownloadFile(url, entry.name);
+                curBytes += entry.size;                
             }
         }
 
         private void DownloadFile(string url, string path)
         {
+            Console.WriteLine(Application.StartupPath + "\\" + path);
             int status = UtilityLibrary.DownloadFile(url, path);
             if (status != 0)
             {

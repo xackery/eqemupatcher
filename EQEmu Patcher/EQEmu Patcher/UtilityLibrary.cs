@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Security.Cryptography;
 using System.IO;
 using System.Net;
+using System.Security.Cryptography;
 
 namespace EQEmu_Patcher
 {
@@ -15,31 +15,51 @@ namespace EQEmu_Patcher
         //Download a file to current directory
         public static int DownloadFile(string url, string outFile)
         {
+
             try
             {
                 using (var client = new WebClient())
                 {
+                    client.Encoding = System.Text.Encoding.UTF8;
                     client.DownloadFile(url, outFile);
                 }
+            } catch( IOException ie)
+            {
+                Console.WriteLine("ie: "+ie.Message);
+                return -1;
             } catch (WebException we) {
                 if (we.Message == "The remote server returned an error: (404) Not Found.")
                 {
                     return 404;
                 }
+                Console.WriteLine("we: "+we.Message);
                 return -1;  
-            } catch
+            } catch (Exception e)
             {
+                Console.WriteLine(e.Message);
                 return -1;
             }
             return 0;
         }
 
-        public static string GetMD5(string filePath)
+        public static string GetMD5(string filename)
         {
-            var md5 = MD5.Create();
-            var stream = File.OpenRead(filePath);
-            return BitConverter.ToString(md5.ComputeHash(stream)).Replace("-", string.Empty);
-            //return Encoding.UTF8.GetString(bytes);
+            using (var md5 = MD5.Create())
+            {
+                using (var stream = File.OpenRead(filename))
+                {
+                    var hash = md5.ComputeHash(stream);
+                    
+                    StringBuilder sb = new StringBuilder();
+
+                    for (int i = 0; i < hash.Length; i++)
+                    {
+                        sb.Append(hash[i].ToString("x2"));
+                    }
+
+                    return sb.ToString();
+                }
+            }
         }
 
         public static string GetJson(string urlPath)
