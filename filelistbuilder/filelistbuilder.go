@@ -2,6 +2,7 @@
 package main
 
 import (
+	"archive/zip"
 	"bufio"
 	"crypto/md5"
 	"fmt"
@@ -37,6 +38,7 @@ type FileEntry struct {
 }
 
 var fileList FileList
+var patchFile *zip.Writer
 
 func main() {
 	var err error
@@ -71,13 +73,67 @@ func main() {
 	if err != nil {
 		log.Fatal("Error marshalling:", err.Error())
 	}
+	if len(fileList.Downloads) == 0 {
+		log.Fatal("No files found in directory")
+	}
 	ioutil.WriteFile("filelist_"+config.Client+".yml", out, 0644)
 
-	log.Println("Wrote filelist_" + config.Client + ".yml.")
+	//Now let's make patch zip.
+	createPatch()
+
+	log.Println("Wrote filelist_"+config.Client+".yml and patch.zip with", len(fileList.Downloads), "files inside.")
+
+}
+
+func createPatch() {
+	var err error
+	var f io.Writer
+	var buf *os.File
+
+	if buf, err = os.Create("patch.zip"); err != nil {
+		log.Fatal("Failed to create patch.zip", err.Error())
+	}
+
+	patchFile = zip.NewWriter(buf)
+
+	for _, download := range fileList.Downloads {
+		var in io.Reader
+		//fmt.Println("Adding", download.Name)
+		if f, err = patchFile.Create(download.Name); err != nil {
+			log.Fatal("Failed to create", download.Name, "inside patch:", err.Error())
+		}
+
+		if in, err = os.Open(download.Name); err != nil {
+			log.Fatal("Failed to open", download.Name, "inside patch:", err.Error())
+		}
+
+		if _, err = io.Copy(f, in); err != nil {
+			log.Fatal("Failed to copy", download.Name, "inside patch:", err.Error())
+		}
+	}
+
+	//Now let's create a README.txt
+	readme := "Extract the contents of patch.zip to your root EQ directory.\r\n"
+	if len(fileList.Deletes) > 0 {
+		readme += "Also delete the following files:\r\n"
+		for _, del := range fileList.Deletes {
+			readme += del.Name + "\r\n"
+		}
+	}
+	if f, err = patchFile.Create("README.txt"); err != nil {
+		log.Fatal("Failed to create README.txt inside patch:", err.Error())
+	}
+
+	f.Write([]byte(readme))
+
+	if err = patchFile.Close(); err != nil {
+		log.Fatal("Error while closing patchfile", err.Error())
+	}
+
 }
 
 func visit(path string, f os.FileInfo, err error) error {
-	if strings.Contains(path, "filelistbuilder") || strings.Contains(path, "filelist") || path == "patch.zip" {
+	if strings.Contains(path, ".gitignore") || strings.Contains(path, ".DS_Store") || strings.Contains(path, "filelistbuilder") || strings.Contains(path, "filelist") || path == "patch.zip" {
 		return nil
 	}
 
