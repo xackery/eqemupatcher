@@ -4,10 +4,13 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using YamlDotNet.Serialization;
+using YamlDotNet.Serialization.NamingConventions;
 //using System.Windows.Shell;
 
 namespace EQEmu_Patcher
@@ -50,17 +53,9 @@ namespace EQEmu_Patcher
                 IniLibrary.instance.ClientVersion = currentVersion;
                 IniLibrary.Save();
             }
-            int status = UtilityLibrary.DownloadFile("http://rebuildeq.com/patch/filelist.yml", "filelist.yml");
-            if (status != 0)
-            {
-                if (status == 400)
-                {
-                    MessageBox.Show("Patch server could not be found. (404)");
-                } else
-                {
-                    MessageBox.Show("Patch server failed: ("+status+")");
-                }
-            }
+            /*
+             * DownloadFile("http://rebuildeq.com/patch/filelist.yml", "filelist.yml");             
+            */
         }
 
         System.Diagnostics.Process process;
@@ -323,6 +318,89 @@ namespace EQEmu_Patcher
         {
 
         }
+
+        private void btnCheck_Click(object sender, EventArgs e)
+        {
+
+            FileList filelist;
+            
+            using (var input = File.OpenText("filelist.yml"))
+            {
+                var deserializerBuilder = new DeserializerBuilder().WithNamingConvention(new CamelCaseNamingConvention());
+
+                var deserializer = deserializerBuilder.Build();
+
+                filelist = deserializer.Deserialize<FileList>(input);
+            }
+            int totalBytes = 0;
+            List<FileEntry> filesToDownload = new List<FileEntry>();
+            foreach (var entry in filelist.downloads)
+            {
+                var path = entry.name.Replace("/", "\\");
+                //See if file exists.
+                if (!File.Exists(path))
+                {
+                    Console.WriteLine("Downloading: "+ entry.name);
+                    filesToDownload.Add(entry);
+                    if (entry.size < 1) totalBytes += 1;
+                    else totalBytes += entry.size;
+                } else
+                {
+                    var md5 = UtilityLibrary.GetMD5(path);
+                    Console.WriteLine(entry.name + ": " + md5 + " vs " + entry.md5);
+                    if (md5 != entry.md5)
+                    {
+                        filesToDownload.Add(entry);
+                        if (entry.size < 1) totalBytes += 1;
+                        else totalBytes += entry.size;
+                    }
+                }
+            }
+            Console.WriteLine("Downloading " + totalBytes + " bytes for " + filesToDownload.Count + " files...");
+            int curBytes = 0;
+            foreach (var entry in filesToDownload)
+            {
+                progressBar.Maximum = totalBytes;
+                progressBar.Value = curBytes;
+                Console.WriteLine("Downloading " + entry.name + "...");
+                DownloadFile(filelist.downloadprefix + entry.name, entry.name);
+
+            }
+        }
+
+        private void DownloadFile(string url, string path)
+        {
+            int status = UtilityLibrary.DownloadFile(url, path);
+            if (status != 0)
+            {
+                if (status == 400)
+                {
+                    MessageBox.Show("Patch server could not be found. (404)");
+                }
+                else
+                {
+                    MessageBox.Show("Patch server failed: (" + status + ")");
+                }
+            }
+        }
+    }
+    public class FileList
+    {
+        public string version { get; set; }
+        
+        public List<FileEntry> deletes { get; set; }
+        public string downloadprefix { get; set; }
+        public List<FileEntry> downloads { get; set; }
+        public List<FileEntry> unpacks { get; set; }
+
+    }
+    public class FileEntry
+    {
+        public string name { get; set;  }
+        public string md5 { get; set; }
+        public string date { get; set; }
+        public string zip { get; set; }
+        public int size { get; set; }
     }
 }
 

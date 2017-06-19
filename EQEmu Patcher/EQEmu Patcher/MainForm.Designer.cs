@@ -35,6 +35,7 @@
             this.btnStart = new System.Windows.Forms.Button();
             this.btnSettings = new System.Windows.Forms.Button();
             this.splashLogo = new System.Windows.Forms.PictureBox();
+            this.btnCheck = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.splashLogo)).BeginInit();
             this.SuspendLayout();
             // 
@@ -104,11 +105,22 @@
             this.splashLogo.TabIndex = 4;
             this.splashLogo.TabStop = false;
             // 
+            // btnCheck
+            // 
+            this.btnCheck.Location = new System.Drawing.Point(294, 460);
+            this.btnCheck.Name = "btnCheck";
+            this.btnCheck.Size = new System.Drawing.Size(75, 23);
+            this.btnCheck.TabIndex = 6;
+            this.btnCheck.Text = "Check";
+            this.btnCheck.UseVisualStyleBackColor = true;
+            this.btnCheck.Click += new System.EventHandler(this.btnCheck_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(434, 511);
+            this.Controls.Add(this.btnCheck);
             this.Controls.Add(this.btnSettings);
             this.Controls.Add(this.splashLogo);
             this.Controls.Add(this.txtList);
@@ -136,6 +148,7 @@
         private System.Windows.Forms.Button btnStart;
         private System.Windows.Forms.PictureBox splashLogo;
         private System.Windows.Forms.Button btnSettings;
+        private System.Windows.Forms.Button btnCheck;
     }
 }
 
