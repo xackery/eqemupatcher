@@ -13,7 +13,7 @@ namespace EQEmu_Patcher
     class UtilityLibrary
     {
         //Download a file to current directory
-        public static int DownloadFile(string url, string outFile)
+        public static string DownloadFile(string url, string outFile)
         {
 
             try
@@ -24,22 +24,19 @@ namespace EQEmu_Patcher
                     client.DownloadFile(url, outFile);
                 }
             } catch( IOException ie)
-            {
-                Console.WriteLine("ie: "+ie.Message);
-                return -1;
+            {                
+                return "IOException: "+ie.Message;
             } catch (WebException we) {
                 if (we.Message == "The remote server returned an error: (404) Not Found.")
                 {
-                    return 404;
+                    return "404";
                 }
-                Console.WriteLine("we: "+we.Message);
-                return -1;  
+                return "WebException: "+we.Message;  
             } catch (Exception e)
             {
-                Console.WriteLine(e.Message);
-                return -1;
+                return "Exception: " + e.Message;
             }
-            return 0;
+            return "";
         }
 
         public static string GetMD5(string filename)

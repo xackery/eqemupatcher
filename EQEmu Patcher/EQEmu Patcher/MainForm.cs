@@ -31,6 +31,8 @@ namespace EQEmu_Patcher
 
         private void MainForm_Load(object sender, EventArgs e)
         {
+            txtList.Visible = false;
+            splashLogo.Visible = true;
             if (this.Width < 432) {
                 this.Width = 432;
             }
@@ -38,7 +40,7 @@ namespace EQEmu_Patcher
             {
                 this.Height = 550;
             }
-            Console.WriteLine(this.Width + " vs " + splashLogo.Width);
+            //Console.WriteLine(this.Width + " vs " + splashLogo.Width);
             buildClientVersions();
             IniLibrary.Load();
             detectClientVersion();
@@ -53,8 +55,10 @@ namespace EQEmu_Patcher
                 IniLibrary.instance.ClientVersion = currentVersion;
                 IniLibrary.Save();
             }
-
-            DownloadFile("http://rebuildeq.com/patch/filelist.yml", "filelist.yml");             
+            
+            DownloadFile("http://rebuildeq.com/patch/filelist.yml", "filelist.yml");
+            txtList.Visible = false;
+            splashLogo.Visible = true;
 
         }
 
@@ -194,12 +198,12 @@ namespace EQEmu_Patcher
                 }
                 else
                 {
-                    txtList.Text = "You seem to have put me in a " + clientVersions[currentVersion].FullName + " client directory";
+                    //txtList.Text = "You seem to have put me in a " + clientVersions[currentVersion].FullName + " client directory";
                 }
                 
                 //MessageBox.Show(""+currentVersion);
                 
-                txtList.Text += "\r\n\r\nIf you wish to help out, press the scan button on the bottom left and wait for it to complete, then copy paste this data as an Issue on github!";
+                //txtList.Text += "\r\n\r\nIf you wish to help out, press the scan button on the bottom left and wait for it to complete, then copy paste this data as an Issue on github!";
             }
             catch (UnauthorizedAccessException err)
             {
@@ -321,7 +325,7 @@ namespace EQEmu_Patcher
 
         private void btnCheck_Click(object sender, EventArgs e)
         {
-
+            txtList.Text = "Patching...";
             FileList filelist;
             
             using (var input = File.OpenText("filelist.yml"))
@@ -340,7 +344,7 @@ namespace EQEmu_Patcher
                 //See if file exists.
                 if (!File.Exists(path))
                 {
-                    Console.WriteLine("Downloading: "+ entry.name);
+                    //Console.WriteLine("Downloading: "+ entry.name);
                     filesToDownload.Add(entry);
                     if (entry.size < 1) totalBytes += 1;
                     else totalBytes += entry.size;
@@ -359,12 +363,12 @@ namespace EQEmu_Patcher
             }
             if (filesToDownload.Count == 0)
             {
-                Console.WriteLine("All up to date");
+                LogEvent("Up to date.");
                 progressBar.Maximum = progressBar.Value = 1;
                 return;
             }
 
-            Console.WriteLine("Downloading " + totalBytes + " bytes for " + filesToDownload.Count + " files...");
+            LogEvent("Downloading " + totalBytes + " bytes for " + filesToDownload.Count + " files...");
             int curBytes = 0;
             progressBar.Maximum = totalBytes;
             progressBar.Value = 0;
@@ -372,28 +376,49 @@ namespace EQEmu_Patcher
             {
                 progressBar.Value = (curBytes > totalBytes) ? totalBytes : curBytes;
                 string url = filelist.downloadprefix + entry.name.Replace("\\", "/");
-                Console.WriteLine("Downloading " + url + "...");
                 DownloadFile(url, entry.name);
                 curBytes += entry.size;                
             }
             progressBar.Value = progressBar.Maximum;
+            LogEvent("Complete!");
         }        
 
         private void DownloadFile(string url, string path)
         {
-            Console.WriteLine(Application.StartupPath + "\\" + path);
-            int status = UtilityLibrary.DownloadFile(url, path);
-            if (status != 0)
+
+            path = path.Replace("/", "\\");
+            if (path.Contains("\\")) { //Make directory if needed.
+                string dir = Application.StartupPath + "\\" + path.Substring(0, path.IndexOf("\\"));
+                Directory.CreateDirectory(dir);
+            }
+
+            //Console.WriteLine(Application.StartupPath + "\\" + path);
+            LogEvent(path + "...");
+            string reason = UtilityLibrary.DownloadFile(url, path);
+            if (reason != "")
             {
-                if (status == 400)
+                if (reason == "404")
                 {
-                    MessageBox.Show("Patch server could not be found. (404)");
+                    LogEvent("Failed to download " + path + ", 404 error (website may be down?)");
+                    //MessageBox.Show("Patch server could not be found. (404)");
                 }
                 else
                 {
-                    MessageBox.Show("Patch server failed: (" + status + ")");
+                    LogEvent("Failed to download " + path + " for untracked reason: " + reason);
+                    //MessageBox.Show("Patch server failed: (" + reason + ")");
                 }
             }
+        }
+
+        private void LogEvent(string text)
+        {
+            if (!txtList.Visible)
+            {
+                txtList.Visible = true;
+                splashLogo.Visible = false;
+            }
+            Console.WriteLine(text);
+            txtList.AppendText(text + "\r\n");
         }
     }
     public class FileList

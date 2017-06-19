@@ -41,26 +41,29 @@
             // 
             this.progressBar.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.progressBar.Location = new System.Drawing.Point(10, 460);
+            this.progressBar.Location = new System.Drawing.Point(10, 521);
             this.progressBar.Name = "progressBar";
             this.progressBar.Size = new System.Drawing.Size(400, 39);
             this.progressBar.TabIndex = 0;
             // 
             // txtList
             // 
-            this.txtList.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left)));
-            this.txtList.Location = new System.Drawing.Point(25, 25);
+            this.txtList.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtList.HideSelection = false;
+            this.txtList.Location = new System.Drawing.Point(10, 6);
             this.txtList.Multiline = true;
             this.txtList.Name = "txtList";
+            this.txtList.ReadOnly = true;
             this.txtList.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txtList.Size = new System.Drawing.Size(241, 238);
+            this.txtList.Size = new System.Drawing.Size(400, 450);
             this.txtList.TabIndex = 1;
             // 
             // btnStart
             // 
             this.btnStart.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnStart.Location = new System.Drawing.Point(315, 402);
+            this.btnStart.Location = new System.Drawing.Point(315, 463);
             this.btnStart.Name = "btnStart";
             this.btnStart.Size = new System.Drawing.Size(95, 52);
             this.btnStart.TabIndex = 3;
@@ -85,7 +88,7 @@
             // btnCheck
             // 
             this.btnCheck.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnCheck.Location = new System.Drawing.Point(12, 402);
+            this.btnCheck.Location = new System.Drawing.Point(12, 463);
             this.btnCheck.Name = "btnCheck";
             this.btnCheck.Size = new System.Drawing.Size(95, 52);
             this.btnCheck.TabIndex = 6;
@@ -97,11 +100,11 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(416, 511);
+            this.ClientSize = new System.Drawing.Size(416, 572);
+            this.Controls.Add(this.txtList);
             this.Controls.Add(this.btnStart);
             this.Controls.Add(this.btnCheck);
             this.Controls.Add(this.splashLogo);
-            this.Controls.Add(this.txtList);
             this.Controls.Add(this.progressBar);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
