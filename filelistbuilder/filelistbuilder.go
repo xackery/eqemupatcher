@@ -16,6 +16,11 @@ import (
 	"github.com/go-yaml/yaml"
 )
 
+type Config struct {
+	Client         string `yaml:"client,omitempty"`
+	DownloadPrefix string `yaml:"downloadprefix,omitempty"`
+}
+
 type FileList struct {
 	Version        string      `yaml:"version,omitempty"`
 	Deletes        []FileEntry `yaml:"deletes,omitempty"`
@@ -37,17 +42,25 @@ func main() {
 	var err error
 	var out []byte
 
-	/*f := FileList{
-		Version: "Test1",
-		Downloads: []FileEntry{
-			FileEntry{
-				Name: "Test",
-			},
-		},
-	}*/
+	inFile, err := ioutil.ReadFile("filelistbuilder.yml")
+	if err != nil {
+		log.Fatal("Failed to parse filelistbuilder.yml:", err.Error())
+	}
+	config := Config{}
+	err = yaml.Unmarshal(inFile, &config)
+	if err != nil {
+		log.Fatal("Failed to unmarshal filelistbuilder.yml:", err.Error())
+	}
+
+	if len(config.Client) < 1 {
+		log.Fatal("client not set in filelistbuilder.yml")
+	}
 
 	fileList.Version = time.Now().Format("20060102")
-	fileList.DownloadPrefix = "http://rebuildeq.com/patch/"
+	if len(config.DownloadPrefix) < 1 {
+		log.Fatal("downloadprefix not set in filelistbuilder.yml")
+	}
+	fileList.DownloadPrefix = config.DownloadPrefix
 
 	err = filepath.Walk(".", visit)
 	if err != nil {
@@ -58,13 +71,13 @@ func main() {
 	if err != nil {
 		log.Fatal("Error marshalling:", err.Error())
 	}
-	ioutil.WriteFile("filelist.yml", out, 0644)
+	ioutil.WriteFile("filelist_"+config.Client+".yml", out, 0644)
 
-	log.Println("Wrote filelist.yml.")
+	log.Println("Wrote filelist_" + config.Client + ".yml.")
 }
 
 func visit(path string, f os.FileInfo, err error) error {
-	if strings.Contains(path, "filelistbuilder") || strings.Contains(path, "filelist") {
+	if strings.Contains(path, "filelistbuilder") || strings.Contains(path, "filelist") || path == "patch.zip" {
 		return nil
 	}
 
