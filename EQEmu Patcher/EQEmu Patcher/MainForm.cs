@@ -54,7 +54,7 @@ namespace EQEmu_Patcher
                 IniLibrary.Save();
             }
 
-            //DownloadFile("https://storage.googleapis.com/rebuildeq/filelist.yml", "filelist.yml");             
+            DownloadFile("http://rebuildeq.com/patch/filelist.yml", "filelist.yml");             
 
         }
 
@@ -359,6 +359,7 @@ namespace EQEmu_Patcher
             }
             if (filesToDownload.Count == 0)
             {
+                Console.WriteLine("All up to date");
                 progressBar.Maximum = progressBar.Value = 1;
                 return;
             }
@@ -375,6 +376,7 @@ namespace EQEmu_Patcher
                 DownloadFile(url, entry.name);
                 curBytes += entry.size;                
             }
+            progressBar.Value = progressBar.Maximum;
         }        
 
         private void DownloadFile(string url, string path)
