@@ -3,22 +3,60 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Security.Cryptography;
 using System.IO;
 using System.Net;
-using System.Text;
+using System.Security.Cryptography;
 
 namespace EQEmu_Patcher
 {
     /* General Utility Methods */
     class UtilityLibrary
     {
-        public static string GetMD5(string filePath)
+        //Download a file to current directory
+        public static string DownloadFile(string url, string outFile)
         {
-            var md5 = MD5.Create();
-            var stream = File.OpenRead(filePath);
-            return BitConverter.ToString(md5.ComputeHash(stream)).Replace("-", string.Empty);
-            //return Encoding.UTF8.GetString(bytes);
+
+            try
+            {
+                using (var client = new WebClient())
+                {
+                    client.Encoding = Encoding.UTF8;
+                    client.DownloadFile(url, outFile);
+                }
+            } catch( IOException ie)
+            {                
+                return "IOException: "+ie.Message;
+            } catch (WebException we) {
+                if (we.Message == "The remote server returned an error: (404) Not Found.")
+                {
+                    return "404";
+                }
+                return "WebException: "+we.Message;  
+            } catch (Exception e)
+            {
+                return "Exception: " + e.Message;
+            }
+            return "";
+        }
+
+        public static string GetMD5(string filename)
+        {
+            using (var md5 = MD5.Create())
+            {
+                using (var stream = File.OpenRead(filename))
+                {
+                    var hash = md5.ComputeHash(stream);
+                    
+                    StringBuilder sb = new StringBuilder();
+
+                    for (int i = 0; i < hash.Length; i++)
+                    {
+                        sb.Append(hash[i].ToString("X2"));
+                    }
+
+                    return sb.ToString();
+                }
+            }
         }
 
         public static string GetJson(string urlPath)
@@ -73,7 +111,6 @@ namespace EQEmu_Patcher
                 return "";
             }
             return UtilityLibrary.GetMD5(files[0].FullName);
-         //   return UtilityLibrary.GetSHA1(files[0].FullName);
         }
     }
 }
