@@ -6,13 +6,34 @@ using System.Threading.Tasks;
 using System.Security.Cryptography;
 using System.IO;
 using System.Net;
-using System.Text;
 
 namespace EQEmu_Patcher
 {
     /* General Utility Methods */
     class UtilityLibrary
     {
+        //Download a file to current directory
+        public static int DownloadFile(string url, string outFile)
+        {
+            try
+            {
+                using (var client = new WebClient())
+                {
+                    client.DownloadFile(url, outFile);
+                }
+            } catch (WebException we) {
+                if (we.Message == "The remote server returned an error: (404) Not Found.")
+                {
+                    return 404;
+                }
+                return -1;  
+            } catch
+            {
+                return -1;
+            }
+            return 0;
+        }
+
         public static string GetMD5(string filePath)
         {
             var md5 = MD5.Create();

@@ -50,8 +50,17 @@ namespace EQEmu_Patcher
                 IniLibrary.instance.ClientVersion = currentVersion;
                 IniLibrary.Save();
             }
-            
-           
+            int status = UtilityLibrary.DownloadFile("http://rebuildeq.com/patch/filelist.yml", "filelist.yml");
+            if (status != 0)
+            {
+                if (status == 400)
+                {
+                    MessageBox.Show("Patch server could not be found. (404)");
+                } else
+                {
+                    MessageBox.Show("Patch server failed: ("+status+")");
+                }
+            }
         }
 
         System.Diagnostics.Process process;
