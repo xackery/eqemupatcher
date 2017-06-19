@@ -22,9 +22,22 @@ namespace EQEmu_Patcher
          *  EDIT THESE VARIABLES FOR EACH SERVER
          * 
          ****/
-        public static string filelistUrl = "http://rebuildeq.com/patch/filelist.yml";
+        public static string serverName = "Rebuild EQ";
+        public static string filelistUrl = "http://rebuildeq.com/patch/";
         public static bool defaultAutoPlay = true; //When a user runs this first time, what should Autoplay be set to?
-        public static bool defaultAutoPatch = false; //When a user runs this first time, what should Autopatch be set to?
+        public static bool defaultAutoPatch = false; //When a user runsA this first time, what should Autopatch be set to?
+
+        //Note that for supported versions, the 3 letter suffix is needed on the filelist_###.yml file.
+        public static List<VersionTypes> supportedClients = new List<VersionTypes> { //Supported clients for patcher
+            //VersionTypes.Unknown, //unk
+            //VersionTypes.Titanium, //tit
+            //VersionTypes.Underfoot, //und
+            //VersionTypes.Secrets_Of_Feydwer, //sof
+            //VersionTypes.Seeds_Of_Destruction, //sod
+            VersionTypes.Rain_Of_Fear, //rof
+            VersionTypes.Rain_Of_Fear_2 //rof
+            //VersionTypes.Broken_Mirror, //bro
+        }; 
         //*** END OF EDIT ***
 
 
@@ -37,7 +50,7 @@ namespace EQEmu_Patcher
         public MainForm()
         {
             InitializeComponent();
-        }           
+        }
 
         private void MainForm_Load(object sender, EventArgs e)
         {
@@ -70,8 +83,38 @@ namespace EQEmu_Patcher
                 IniLibrary.instance.ClientVersion = currentVersion;
                 IniLibrary.Save();
             }
-            
-            DownloadFile(filelistUrl, "filelist.yml");
+            string suffix = "unk";
+            if (currentVersion == VersionTypes.Titanium) suffix = "tit";
+            if (currentVersion == VersionTypes.Underfoot) suffix = "und";
+            if (currentVersion == VersionTypes.Seeds_Of_Destruction) suffix = "sod";
+            if (currentVersion == VersionTypes.Broken_Mirror) suffix = "bro";
+            if (currentVersion == VersionTypes.Secrets_Of_Feydwer) suffix = "sof";
+            if (currentVersion == VersionTypes.Rain_Of_Fear || currentVersion == VersionTypes.Rain_Of_Fear_2) suffix = "rof";
+
+            bool isSupported = false;
+            foreach (var ver in supportedClients)
+            {
+                if (ver != currentVersion) continue;                
+                isSupported = true;
+                break;
+            }
+            if (!isSupported) {
+                MessageBox.Show("The server " + serverName + " does not work with this copy of Everquest (" + currentVersion.ToString().Replace("_", " ") + ")", serverName);
+                this.Close();
+                return;
+            }
+
+            this.Text = serverName + " (Client: " + currentVersion.ToString().Replace("_", " ") + ")";
+
+            string webUrl = filelistUrl + suffix + "/filelist_" + suffix + ".yml";
+            string response = DownloadFile(webUrl, "filelist.yml");
+            if (response != "")
+            {
+                MessageBox.Show("Failed to fetch filelist from " + webUrl + ": " + response);
+                this.Close();
+                return;
+            }
+
             txtList.Visible = false;
             splashLogo.Visible = true;
             FileList filelist;
@@ -96,6 +139,10 @@ namespace EQEmu_Patcher
             chkAutoPlay.Checked = (IniLibrary.instance.AutoPlay == "true");
             chkAutoPatch.Checked = (IniLibrary.instance.AutoPatch == "true");
             isLoading = false;
+            if (File.Exists("eqemupatcher.png"))
+            {
+                splashLogo.Load("eqemupatcher.png");
+            }
         }
 
         System.Diagnostics.Process process;
@@ -363,7 +410,7 @@ namespace EQEmu_Patcher
             StartPatch();
         }        
 
-        private void DownloadFile(string url, string path)
+        private string DownloadFile(string url, string path)
         {
 
             path = path.Replace("/", "\\");
@@ -387,7 +434,9 @@ namespace EQEmu_Patcher
                     LogEvent("Failed to download " + path + " for untracked reason: " + reason);
                     //MessageBox.Show("Patch server failed: (" + reason + ")");
                 }
+                return reason;
             }
+            return "";
         }
 
         private void StartPatch()
