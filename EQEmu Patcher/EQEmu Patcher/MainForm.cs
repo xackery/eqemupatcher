@@ -1,5 +1,4 @@
-﻿using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -40,10 +39,10 @@ namespace EQEmu_Patcher
             {
                 this.Height = 550;
             }
-            //Console.WriteLine(this.Width + " vs " + splashLogo.Width);
             buildClientVersions();
             IniLibrary.Load();
             detectClientVersion();
+            
             if (IniLibrary.instance.ClientVersion == VersionTypes.Unknown)
             {
                 detectClientVersion();
@@ -51,7 +50,6 @@ namespace EQEmu_Patcher
                 {
                     this.Close();
                 }
-                detectCleanCopy();
                 IniLibrary.instance.ClientVersion = currentVersion;
                 IniLibrary.Save();
             }
@@ -59,6 +57,24 @@ namespace EQEmu_Patcher
             DownloadFile("http://rebuildeq.com/patch/filelist.yml", "filelist.yml");
             txtList.Visible = false;
             splashLogo.Visible = true;
+            FileList filelist;
+
+            using (var input = File.OpenText("filelist.yml"))
+            {
+                var deserializerBuilder = new DeserializerBuilder().WithNamingConvention(new CamelCaseNamingConvention());
+
+                var deserializer = deserializerBuilder.Build();
+
+                filelist = deserializer.Deserialize<FileList>(input);
+            }
+            if (filelist.version != IniLibrary.instance.LastPatchedVersion)
+            {
+                if (IniLibrary.instance.AutoPatch.ToLower() == "true") StartPatch();
+                else btnCheck.BackColor = Color.Red;
+            } else
+            {
+                if (IniLibrary.instance.AutoPlay.ToLower() == "true") PlayGame();
+            }
 
         }
 
@@ -131,15 +147,7 @@ namespace EQEmu_Patcher
             }
             return fileMap;
         }
-
-        private void detectCleanCopy()
-        {
-            //I use eqspells to detect clean copies, since it's the most common file to be edited.
-            if (MessageBox.Show("This directory appears to be a clean copy of " + clientVersions[currentVersion].FullName + ". Should we set this as the default?", "Clean Copy?", MessageBoxButtons.YesNo, MessageBoxIcon.Asterisk) == DialogResult.Yes)
-            {
-                IniLibrary.instance.IsCleanCopy = true;
-            }
-        }
+        
 
         private void detectClientVersion()
         {
@@ -290,7 +298,7 @@ namespace EQEmu_Patcher
             fileMap = WalkDirectoryTree(new System.IO.DirectoryInfo(AppDomain.CurrentDomain.BaseDirectory + "\\atlas"));
             pv.AtlasFiles = fileMap;
             */
-            txtList.Text = JsonConvert.SerializeObject(pv);
+            //txtList.Text = JsonConvert.SerializeObject(pv);
         }
 
         private void updateTaskbarProgress()
@@ -308,12 +316,19 @@ namespace EQEmu_Patcher
 
         private void btnStart_Click(object sender, EventArgs e)
         {
-            try {                
+            PlayGame();            
+        }
+
+        private void PlayGame()
+        {
+            try
+            {
                 process = UtilityLibrary.StartEverquest();
                 if (process != null) this.Close();
                 else MessageBox.Show("The process failed to start");
             }
-            catch  (Exception err) {
+            catch (Exception err)
+            {
                 MessageBox.Show("An error occured while trying to start everquest: " + err.Message);
             }
         }
@@ -325,62 +340,7 @@ namespace EQEmu_Patcher
 
         private void btnCheck_Click(object sender, EventArgs e)
         {
-            txtList.Text = "Patching...";
-            FileList filelist;
-            
-            using (var input = File.OpenText("filelist.yml"))
-            {
-                var deserializerBuilder = new DeserializerBuilder().WithNamingConvention(new CamelCaseNamingConvention());
-
-                var deserializer = deserializerBuilder.Build();
-
-                filelist = deserializer.Deserialize<FileList>(input);
-            }
-            int totalBytes = 0;
-            List<FileEntry> filesToDownload = new List<FileEntry>();
-            foreach (var entry in filelist.downloads)
-            {
-                var path = entry.name.Replace("/", "\\");
-                //See if file exists.
-                if (!File.Exists(path))
-                {
-                    //Console.WriteLine("Downloading: "+ entry.name);
-                    filesToDownload.Add(entry);
-                    if (entry.size < 1) totalBytes += 1;
-                    else totalBytes += entry.size;
-                } else
-                {
-                    var md5 = UtilityLibrary.GetMD5(path);
-                    
-                    if (md5.ToUpper() != entry.md5.ToUpper())
-                    {
-                        Console.WriteLine(entry.name + ": " + md5 + " vs " + entry.md5);
-                        filesToDownload.Add(entry);
-                        if (entry.size < 1) totalBytes += 1;
-                        else totalBytes += entry.size;
-                    }
-                }
-            }
-            if (filesToDownload.Count == 0)
-            {
-                LogEvent("Up to date.");
-                progressBar.Maximum = progressBar.Value = 1;
-                return;
-            }
-
-            LogEvent("Downloading " + totalBytes + " bytes for " + filesToDownload.Count + " files...");
-            int curBytes = 0;
-            progressBar.Maximum = totalBytes;
-            progressBar.Value = 0;
-            foreach (var entry in filesToDownload)
-            {
-                progressBar.Value = (curBytes > totalBytes) ? totalBytes : curBytes;
-                string url = filelist.downloadprefix + entry.name.Replace("\\", "/");
-                DownloadFile(url, entry.name);
-                curBytes += entry.size;                
-            }
-            progressBar.Value = progressBar.Maximum;
-            LogEvent("Complete!");
+            StartPatch();
         }        
 
         private void DownloadFile(string url, string path)
@@ -408,6 +368,73 @@ namespace EQEmu_Patcher
                     //MessageBox.Show("Patch server failed: (" + reason + ")");
                 }
             }
+        }
+
+        private void StartPatch()
+        {
+            txtList.Text = "Patching...";
+            FileList filelist;
+
+            using (var input = File.OpenText("filelist.yml"))
+            {
+                var deserializerBuilder = new DeserializerBuilder().WithNamingConvention(new CamelCaseNamingConvention());
+
+                var deserializer = deserializerBuilder.Build();
+
+                filelist = deserializer.Deserialize<FileList>(input);
+            }
+            int totalBytes = 0;
+            List<FileEntry> filesToDownload = new List<FileEntry>();
+            foreach (var entry in filelist.downloads)
+            {
+                var path = entry.name.Replace("/", "\\");
+                //See if file exists.
+                if (!File.Exists(path))
+                {
+                    //Console.WriteLine("Downloading: "+ entry.name);
+                    filesToDownload.Add(entry);
+                    if (entry.size < 1) totalBytes += 1;
+                    else totalBytes += entry.size;
+                }
+                else
+                {
+                    var md5 = UtilityLibrary.GetMD5(path);
+
+                    if (md5.ToUpper() != entry.md5.ToUpper())
+                    {
+                        Console.WriteLine(entry.name + ": " + md5 + " vs " + entry.md5);
+                        filesToDownload.Add(entry);
+                        if (entry.size < 1) totalBytes += 1;
+                        else totalBytes += entry.size;
+                    }
+                }
+            }
+            if (filesToDownload.Count == 0)
+            {
+                LogEvent("Up to date with patch "+filelist.version+".");
+                progressBar.Maximum = progressBar.Value = 1;
+                IniLibrary.instance.LastPatchedVersion = filelist.version;
+                IniLibrary.Save();
+                btnCheck.BackColor = SystemColors.Control;
+                return;
+            }
+
+            LogEvent("Downloading " + totalBytes + " bytes for " + filesToDownload.Count + " files...");
+            int curBytes = 0;
+            progressBar.Maximum = totalBytes;
+            progressBar.Value = 0;
+            foreach (var entry in filesToDownload)
+            {
+                progressBar.Value = (curBytes > totalBytes) ? totalBytes : curBytes;
+                string url = filelist.downloadprefix + entry.name.Replace("\\", "/");
+                DownloadFile(url, entry.name);
+                curBytes += entry.size;
+            }
+            progressBar.Value = progressBar.Maximum;
+            LogEvent("Complete!");
+            IniLibrary.instance.LastPatchedVersion = filelist.version;
+            IniLibrary.Save();
+            btnCheck.BackColor = SystemColors.Control;
         }
 
         private void LogEvent(string text)
@@ -438,7 +465,7 @@ namespace EQEmu_Patcher
         public string date { get; set; }
         public string zip { get; set; }
         public int size { get; set; }
-    }
+    }    
 }
 
 
