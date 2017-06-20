@@ -24,8 +24,8 @@ namespace EQEmu_Patcher
          ****/
         public static string serverName = "Rebuild EQ";
         public static string filelistUrl = "http://rebuildeq.com/patch/";
-        public static bool defaultAutoPlay = true; //When a user runs this first time, what should Autoplay be set to?
-        public static bool defaultAutoPatch = false; //When a user runsA this first time, what should Autopatch be set to?
+        public static bool defaultAutoPlay = false; //When a user runs this first time, what should Autoplay be set to?
+        public static bool defaultAutoPatch = false; //When a user runs this first time, what should Autopatch be set to?
 
         //Note that for supported versions, the 3 letter suffix is needed on the filelist_###.yml file.
         public static List<VersionTypes> supportedClients = new List<VersionTypes> { //Supported clients for patcher
