@@ -42,6 +42,7 @@ namespace EQEmu_Patcher
 
 
         bool isLoading;
+        bool isNeedingPatch;
         private Dictionary<VersionTypes, ClientVersion> clientVersions = new Dictionary<VersionTypes, ClientVersion>();
 
         VersionTypes currentVersion;
@@ -117,8 +118,7 @@ namespace EQEmu_Patcher
 
             txtList.Visible = false;
             splashLogo.Visible = true;
-            FileList filelist;
-            
+            FileList filelist;            
 
             using (var input = File.OpenText("filelist.yml"))
             {
@@ -128,13 +128,14 @@ namespace EQEmu_Patcher
 
                 filelist = deserializer.Deserialize<FileList>(input);
             }
+            
             if (filelist.version != IniLibrary.instance.LastPatchedVersion)
             {
-                if (IniLibrary.instance.AutoPatch.ToLower() == "true") StartPatch();
-                else btnCheck.BackColor = Color.Red;
+                isNeedingPatch = true;
+               btnCheck.BackColor = Color.Red;
             } else
-            {
-                if (IniLibrary.instance.AutoPlay.ToLower() == "true") PlayGame();
+            {                
+                if ( IniLibrary.instance.AutoPlay.ToLower() == "true") PlayGame();
             }
             chkAutoPlay.Checked = (IniLibrary.instance.AutoPlay == "true");
             chkAutoPatch.Checked = (IniLibrary.instance.AutoPatch == "true");
@@ -405,8 +406,19 @@ namespace EQEmu_Patcher
 
         }
 
+        bool isPatching = false;
+
+        public object Keyboard { get; private set; }
+
         private void btnCheck_Click(object sender, EventArgs e)
         {
+            if (isPatching)
+            {
+                btnCheck.Text = "Patch";
+                isPatching = false;
+                return;
+            }
+
             StartPatch();
         }        
 
@@ -415,7 +427,8 @@ namespace EQEmu_Patcher
 
             path = path.Replace("/", "\\");
             if (path.Contains("\\")) { //Make directory if needed.
-                string dir = Application.StartupPath + "\\" + path.Substring(0, path.IndexOf("\\"));
+                
+                string dir = Application.StartupPath + "\\" + path.Substring(0, path.LastIndexOf("\\"));
                 Directory.CreateDirectory(dir);
             }
 
@@ -441,6 +454,10 @@ namespace EQEmu_Patcher
 
         private void StartPatch()
         {
+            if (isPatching) return;
+            isPatching = true;
+            btnCheck.Text = "Cancel";
+
             txtList.Text = "Patching...";
             FileList filelist;
 
@@ -456,6 +473,7 @@ namespace EQEmu_Patcher
             List<FileEntry> filesToDownload = new List<FileEntry>();
             foreach (var entry in filelist.downloads)
             {
+                Application.DoEvents();
                 var path = entry.name.Replace("/", "\\");
                 //See if file exists.
                 if (!File.Exists(path))
@@ -477,6 +495,12 @@ namespace EQEmu_Patcher
                         else totalBytes += entry.size;
                     }
                 }
+                Application.DoEvents();
+                if (!isPatching) { 
+                    LogEvent("Patching cancelled.");
+                    return;
+                }
+
             }
 
             if (filelist.deletes.Count > 0)
@@ -488,6 +512,12 @@ namespace EQEmu_Patcher
                         LogEvent("Deleting " + entry.name + "...");
                         File.Delete(entry.name);
                     }
+                    Application.DoEvents();
+                    if (!isPatching)
+                    {
+                        LogEvent("Patching cancelled.");
+                        return;
+                    }
                 }
             }
 
@@ -498,6 +528,7 @@ namespace EQEmu_Patcher
                 IniLibrary.instance.LastPatchedVersion = filelist.version;
                 IniLibrary.Save();
                 btnCheck.BackColor = SystemColors.Control;
+                btnCheck.Text = "Patch";
                 return;
             }
 
@@ -511,12 +542,19 @@ namespace EQEmu_Patcher
                 string url = filelist.downloadprefix + entry.name.Replace("\\", "/");
                 DownloadFile(url, entry.name);
                 curBytes += entry.size;
+                Application.DoEvents();
+                if (!isPatching)
+                {
+                    LogEvent("Patching cancelled.");
+                    return;
+                }
             }
             progressBar.Value = progressBar.Maximum;
             LogEvent("Complete! Press Play to begin.");
             IniLibrary.instance.LastPatchedVersion = filelist.version;
             IniLibrary.Save();
             btnCheck.BackColor = SystemColors.Control;
+            btnCheck.Text = "Patch";
         }
 
         private void LogEvent(string text)
@@ -543,6 +581,15 @@ namespace EQEmu_Patcher
             if (isLoading) return;
             IniLibrary.instance.AutoPatch = (chkAutoPatch.Checked) ? "true" : "false";
             IniLibrary.Save();
+        }
+
+        private void MainForm_Shown(object sender, EventArgs e)
+        {
+            if (isNeedingPatch && IniLibrary.instance.AutoPatch == "true")
+            {
+                btnCheck.BackColor = SystemColors.Control;
+                StartPatch();
+            }
         }
     }
     public class FileList
