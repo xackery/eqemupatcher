@@ -133,7 +133,7 @@ func createPatch() {
 }
 
 func visit(path string, f os.FileInfo, err error) error {
-	if strings.Contains(path, ".gitignore") || strings.Contains(path, ".DS_Store") || strings.Contains(path, "filelistbuilder") || strings.Contains(path, "filelist") || path == "patch.zip" {
+	if strings.Contains(path, "eqemupatcher.exe") || strings.Contains(path, ".gitignore") || strings.Contains(path, ".DS_Store") || strings.Contains(path, "filelistbuilder") || strings.Contains(path, "filelist") || path == "patch.zip" {
 		return nil
 	}
 
