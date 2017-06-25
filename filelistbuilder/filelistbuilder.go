@@ -37,6 +37,8 @@ type FileEntry struct {
 	Size int64  `yaml:"size,omitempty"`
 }
 
+var ignoreList []FileEntry
+
 var fileList FileList
 var patchFile *zip.Writer
 
@@ -63,6 +65,8 @@ func main() {
 		log.Fatal("downloadprefix not set in filelistbuilder.yml")
 	}
 	fileList.DownloadPrefix = config.DownloadPrefix
+
+	generateIgnores("ignore.txt")
 
 	err = filepath.Walk(".", visit)
 	if err != nil {
@@ -133,12 +137,23 @@ func createPatch() {
 }
 
 func visit(path string, f os.FileInfo, err error) error {
-	if strings.Contains(path, "eqemupatcher.exe") || strings.Contains(path, ".gitignore") || strings.Contains(path, ".DS_Store") || strings.Contains(path, "filelistbuilder") || strings.Contains(path, "filelist") || path == "patch.zip" {
+	if strings.Contains(path, "eqemupatcher.exe") ||
+		strings.Contains(path, ".gitignore") ||
+		strings.Contains(path, ".DS_Store") ||
+		strings.Contains(path, "filelistbuilder") ||
+		strings.Contains(path, "filelist") ||
+		strings.Contains(path, "ignore.txt") ||
+		path == "patch.zip" {
 		return nil
 	}
 
 	if !f.IsDir() {
 
+		for _, entry := range ignoreList {
+			if path == entry.Name { //ignored file
+				return nil
+			}
+		}
 		//found a delete entry list
 		if path == "delete.txt" {
 			err = generateDeletes(path)
@@ -179,7 +194,14 @@ func getMd5(path string) (value string, err error) {
 	return
 }
 
-func generateDeletes(path string) (err error) {
+func generateIgnores(path string) (err error) {
+
+	//if ignore doesn't exist, no worries.
+	if _, err = os.Stat(path); os.IsNotExist(err) {
+		err = nil
+		return
+	}
+
 	file, err := os.Open(path)
 	if err != nil {
 		log.Fatal(err)
@@ -189,6 +211,47 @@ func generateDeletes(path string) (err error) {
 	scanner := bufio.NewScanner(file)
 	for scanner.Scan() {
 		data := scanner.Text()
+		if len(data) == 0 {
+			continue
+		}
+		if strings.Contains(data, "#") { //Strip comments
+			data = data[0:strings.Index(data, "#")]
+		}
+		if len(strings.TrimSpace(data)) < 1 { //skip empty lines
+			continue
+		}
+
+		entry := FileEntry{
+			Name: data,
+		}
+		ignoreList = append(ignoreList, entry)
+	}
+
+	if err := scanner.Err(); err != nil {
+		log.Fatal(err)
+	}
+	return
+}
+
+func generateDeletes(path string) (err error) {
+	//if delete doesn't exist, no worries.
+	if _, err = os.Stat(path); os.IsNotExist(err) {
+		err = nil
+		return
+	}
+
+	file, err := os.Open(path)
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer file.Close()
+
+	scanner := bufio.NewScanner(file)
+	for scanner.Scan() {
+		data := scanner.Text()
+		if len(data) == 0 {
+			continue
+		}
 		if strings.Contains(data, "#") { //Strip comments
 			data = data[0:strings.Index(data, "#")]
 		}
