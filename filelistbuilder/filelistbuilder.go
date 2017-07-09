@@ -60,7 +60,6 @@ func main() {
 		log.Fatal("client not set in filelistbuilder.yml")
 	}
 
-	fileList.Version = time.Now().Format("20060102")
 	if len(config.DownloadPrefix) < 1 {
 		log.Fatal("downloadprefix not set in filelistbuilder.yml")
 	}
@@ -73,6 +72,14 @@ func main() {
 		log.Fatal("Error filepath", err.Error())
 	}
 
+	h := md5.New()
+	io.WriteString(h, fmt.Sprintf("%i", time.Now().Nanosecond()))
+	for _, d := range fileList.Downloads {
+		io.WriteString(h, d.Name)
+	}
+
+	fileList.Version = fmt.Sprintf("%s%x", time.Now().Format("20060102"), h.Sum(nil))
+
 	out, err = yaml.Marshal(&fileList)
 	if err != nil {
 		log.Fatal("Error marshalling:", err.Error())
@@ -80,6 +87,7 @@ func main() {
 	if len(fileList.Downloads) == 0 {
 		log.Fatal("No files found in directory")
 	}
+
 	ioutil.WriteFile("filelist_"+config.Client+".yml", out, 0644)
 
 	//Now let's make patch zip.
