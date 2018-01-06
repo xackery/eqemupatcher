@@ -5,12 +5,9 @@ EQEmu File Comparison and Patcher
 ![alt tag](http://i.imgur.com/FSVgkzh.png)
 ---
 
-## Downloading
-Latest pre-compiled binaries are found here: https://github.com/xackery/eqemupatcher/releases 
-
 *Note:* There are two parts to this program. eqemupatcher.exe and filelistbuilder.exe.
 
-*Also Note:* While precompiled binaries are available, it is REQUIRED as a server administrator to compile eqemupatcher.exe yourself to configure it properly.
+*Also Note:* It is REQUIRED as a server administrator to compile eqemupatcher.exe yourself to configure it properly.
 * eqemupatcher.exe is the client side patcher. Read Client Setup for more information on how to use it.
 * filelistbuilder.exe is the server side patch prepper. Read Server Setup for more information on how to use it.
 
@@ -21,10 +18,45 @@ After finishing the Server Setup process, simply distribute eqemupatcher.exe to 
 
 ### Server Setup
 
-There are two major parts of getting eqemupatcher working. First, is compiling the c
-#### Visual Studio Setup.
-* Get Visual Studio if you don't have it already. You can obtain the latest copy of Visual Studio for free from Microsoft here: https://www.visualstudio.com/downloads/ Click the Community Edition.
-* Fork this repository, so you can modify and version your own changes. If you are unfamiliar with forking, I suggest checking out https://help.github.com/articles/fork-a-repo/ to learn more.
-* Navigate into the EQEmu Patcher directory and open EQEmu Patcher.sln. It will open in Visual Studio.
+There are two parts to getting eqemupatcher working. First is getting filelistbuilder configured, second is configuring and compiling the eqemupatcher client.
 
-### Forking
+* Fork this repository, so you can modify and version your own changes. If you are unfamiliar with forking, I suggest checking out https://help.github.com/articles/fork-a-repo/ to learn more. When I refer to the EQemu Patcher\ directory, I am referring to your forked copy of the source code here.
+
+#### Filelistbuilder setup - Building the patch data.
+* *Optional:* If you have golang installed, you can compile filelistbuilder.go yourself by going into your EQEmu Patcher\flielistbuilder\ directory and compiling filelistbuilder.go. 
+* Download the filelistbuilder binary version that fits your server operating system here: https://github.com/xackery/eqemupatcher/releases
+* *Note:* It is important that your server generates the filelist.yml file, as an md5 can change when being hosted and cause challenges.
+* Copy the filelistbuilder binary from releases to your server into a fresh directory, for now on we'll call it filelistbuilder\.
+* Copy EQEmu Patcher\filelistbuilder.yml to filelistbuilder\
+* Copy the files that need to be patched into filelistbuilder\
+* Edit filelistbuilder/filelistbuilder.yml and change the downloadprefix line to match the URL your patches will be found at. You can also modify the client type, a list of supported types by default are: 
+```
+VersionTypes.Unknown, //unk
+VersionTypes.Titanium, //tit
+VersionTypes.Underfoot, //und
+VersionTypes.Secrets_Of_Feydwer, //sof
+VersionTypes.Seeds_Of_Destruction, //sod
+VersionTypes.Rain_Of_Fear, //rof
+VersionTypes.Rain_Of_Fear_2 //rof
+VersionTypes.Broken_Mirror, //bro
+```
+* By default, all versiontypes are not supported except rof, you can edit this during client configuration if you plan to use another client.
+* Run the filelistbuilder binary. If all succeeds, it will generate 2 new files: filelist_rof.yml and patch.zip. (the _rof suffix will change if you modify the client)
+* Patch.zip is a fully encompassed zip you can link players to who do not trust your patcher. Open it and you should see all patch contents.
+* You can take a peek at filelist_rof.yml to verify the files expected to be patched are located correclty, and if the prefixdownload url looks correct.
+* You can now copy all contents, except the filelistbuilder binary and filelistbuilder.yml to your patch URL.
+* *Note:* eqemupatcher supports deleting files by adding a delete.txt file to filelistbuilder\. Inside it, simply list all files to be deleted in a line, e.g.:
+```
+nektulos.eqg
+```
+
+#### Visual Studio Setup - Building the Client
+* Get Visual Studio if you don't have it already. You can obtain the latest copy of Visual Studio for free from Microsoft here: https://www.visualstudio.com/downloads/ Click the Community Edition.
+
+* Navigate into the EQEmu Patcher directory and open EQEmu Patcher.sln. It will open in Visual Studio.
+* On the Debug dropdown on the top center of screen, change it to Release.
+* Click play. It should prompt a message box noting you must run this patcher in your Everquest directory.
+* Go to your Everquest directory, and copy eqgame.exe from your EQ directory to the EQEmu Patcher\EQEmu Patcher\bin\Release directory. 
+* Click play again. This time, it should detect your client and start the patcher. (By default, it is configured to use rebuildeq and may not work as desired.).
+* Right click MainForm.cs on the right side of Visual Studio and click View Code.
+* On the header section of this file, you will see options to configure. Change serverName, fileListUrl, etc to the directory you have planned to prep everything.
