@@ -48,6 +48,7 @@ nektulos.eqg
 anotherfile.txt
 ```
 * *Note:* You can make a custom splash screen by creating a 400x450 png file named eqemupatcher.png and including it in your patcher.
+* You're done! Any time you run the filelistbuilder binary in future, it will regenerate the filelist_rof.yml and patch.zip. It stores md5 checksums so that eqemupatcher.exe can compare existing files and decide to download and patch or not.
 
 #### Visual Studio Setup - Building the Client
 * Get Visual Studio if you don't have it already. You can obtain the latest copy of Visual Studio for free from Microsoft here: https://www.visualstudio.com/downloads/ Click the Community Edition.
