@@ -47,6 +47,7 @@ VersionTypes.Broken_Mirror, //bro
 nektulos.eqg
 anotherfile.txt
 ```
+* *Note:* You can make a custom splash screen by creating a 400x450 png file named eqemupatcher.png and including it in your patcher.
 
 #### Visual Studio Setup - Building the Client
 * Get Visual Studio if you don't have it already. You can obtain the latest copy of Visual Studio for free from Microsoft here: https://www.visualstudio.com/downloads/ Click the Community Edition.
@@ -58,3 +59,6 @@ anotherfile.txt
 * Click play again. This time, it should detect your client and start the patcher. (By default, it is configured to use rebuildeq and may not work as desired.).
 * Right click MainForm.cs on the right side of Visual Studio and click View Code.
 * On the header section of this file, you will see options to configure. Change serverName, fileListUrl, etc to the directory you have planned to prep everything.
+* In your EQEmu Patcher\EQEmu Patcher\bin\Release\ folder should be an eqemupatcher.exe file. Copy this to your server to be downloaded by clients.
+
+
