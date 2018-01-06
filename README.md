@@ -40,7 +40,7 @@ VersionTypes.Broken_Mirror, //bro
 * By default, all versiontypes are not supported except rof, you can edit this during client configuration if you plan to use another client.
 * Run the filelistbuilder binary. If all succeeds, it will generate 2 new files: filelist_rof.yml and patch.zip. (the _rof suffix will change if you modify the client)
 * Patch.zip is a fully encompassed zip you can link players to who do not trust your patcher. Open it and you should see all patch contents.
-* You can take a peek at filelist_rof.yml to verify the files expected to be patched are located correclty, and if the prefixdownload url looks correct.
+* You can take a peek at filelist_rof.yml to verify the files expected to be patched are located correctly, and if the prefixdownload url looks correct.
 * You can now copy all contents, except the filelistbuilder binary and filelistbuilder.yml to your patch URL.
 * *Note:* eqemupatcher supports deleting files by adding a delete.txt file to filelistbuilder\. Inside it, simply list all files to be deleted in a line, e.g.:
 ```
