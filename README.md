@@ -24,9 +24,9 @@ There are two parts to getting eqemupatcher working. First is getting filelistbu
 * Download the filelistbuilder binary version that fits your server operating system here: https://github.com/xackery/eqemupatcher/releases
 * *Note:* It is important that your server generates the filelist.yml file, as an md5 can change when being hosted and cause challenges.
 * Copy the filelistbuilder binary from releases to your server into a fresh directory, for now on we'll call it filelistbuilder\.
-* Copy EQEmu Patcher\filelistbuilder.yml to filelistbuilder\
-* Copy the files that need to be patched into filelistbuilder\
-* Edit filelistbuilder/filelistbuilder.yml and change the downloadprefix line to match the URL your patches will be found at. You can also modify the client type, a list of supported types by default are: 
+* Make a subdirectory representing clients you plan to support, e.g. filelistbuilder\rof\ and filelistbuilder\und\
+* By default, all versiontypes are not supported except rof, you can edit this during client configuration if you plan to use another client.
+A list of supported types by default are: 
 ```
 VersionTypes.Unknown, //unk
 VersionTypes.Titanium, //tit
@@ -37,12 +37,14 @@ VersionTypes.Rain_Of_Fear, //rof
 VersionTypes.Rain_Of_Fear_2 //rof
 VersionTypes.Broken_Mirror, //bro
 ```
-* By default, all versiontypes are not supported except rof, you can edit this during client configuration if you plan to use another client.
+* Copy EQEmu Patcher\filelistbuilder.yml to filelistbuilder\rof\ and any other clients.
+* Copy the files that need to be patched into filelistbuilder\rof\ and any other clients.
+* Edit filelistbuilder\rof\filelistbuilder.yml and change the downloadprefix line to match where the patches will be hosted. (For the example, it will be http://example.com/rof/). 
 * Run the filelistbuilder binary. If all succeeds, it will generate 2 new files: filelist_rof.yml and patch.zip. (the _rof suffix will change if you modify the client)
 * Patch.zip is a fully encompassed zip you can link players to who do not trust your patcher. Open it and you should see all patch contents.
 * You can take a peek at filelist_rof.yml to verify the files expected to be patched are located correctly, and if the prefixdownload url looks correct.
-* You can now copy all contents, except the filelistbuilder binary and filelistbuilder.yml to your patch URL.
-* *Note:* eqemupatcher supports deleting files by adding a delete.txt file to filelistbuilder\. Inside it, simply list all files to be deleted in a different line, e.g.: (Be careful with this feature)
+* You can now copy all contents, except the filelistbuilder binary and filelistbuilder.yml, to your patch URL with a subdir of your client.. e.g. copy all files for a rof patch to http://example.com/rof/ so that if you access http://example.com/rof/filelist_rof.yml it will succeed to find the file
+* *Note:* eqemupatcher supports deleting files by adding a delete.txt file to filelistbuilder\rof\. Inside it, simply list all files to be deleted in a different line, e.g.: (Be careful with this feature)
 ```
 nektulos.eqg
 anotherfile.txt
@@ -59,7 +61,10 @@ anotherfile.txt
 * Go to your Everquest directory, and copy eqgame.exe from your EQ directory to the EQEmu Patcher\EQEmu Patcher\bin\Release directory. 
 * Click play again. This time, it should detect your client and start the patcher. (By default, it is configured to use rebuildeq and may not work as desired.).
 * Right click MainForm.cs on the right side of Visual Studio and click View Code.
-* On the header section of this file, you will see options to configure. Change serverName, fileListUrl, etc to the directory you have planned to prep everything.
+* On the header section of this file, you will see options to configure. Change serverName, fileListUrl (set it to the ROOT URL, e.g. http://example.com/, etc to the directory you have planned to prep everything.
 * In your EQEmu Patcher\EQEmu Patcher\bin\Release\ folder should be an eqemupatcher.exe file. Copy this to your server to be downloaded by clients.
+* You can also verify all is ok by copying eqemupatcher.exe to your Everquest directory. 
+
+That's it!
 
 
