@@ -503,7 +503,7 @@ namespace EQEmu_Patcher
 
             }
 
-            if (filelist.deletes.Count > 0)
+            if (filelist.deletes != null && filelist.deletes.Count > 0)
             {
                 foreach (var entry in filelist.deletes)
                 {
