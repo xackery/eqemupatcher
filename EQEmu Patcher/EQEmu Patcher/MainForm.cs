@@ -23,7 +23,7 @@ namespace EQEmu_Patcher
          * 
          ****/
         public static string serverName = "Rebuild EQ";
-        public static string filelistUrl = "http://rebuildeq.com/patch/";
+        public static string filelistUrl = "https://patch.clumsysworld.com/";
         public static bool defaultAutoPlay = false; //When a user runs this first time, what should Autoplay be set to?
         public static bool defaultAutoPatch = false; //When a user runs this first time, what should Autopatch be set to?
 
@@ -439,12 +439,12 @@ namespace EQEmu_Patcher
             {
                 if (reason == "404")
                 {
-                    LogEvent("Failed to download " + path + ", 404 error (website may be down?)");
+                    LogEvent("Failed to download " + url + ", 404 error (website may be down?)");
                     //MessageBox.Show("Patch server could not be found. (404)");
                 }
                 else
                 {
-                    LogEvent("Failed to download " + path + " for untracked reason: " + reason);
+                    LogEvent("Failed to download " + url + " for untracked reason: " + reason);
                     //MessageBox.Show("Patch server failed: (" + reason + ")");
                 }
                 return reason;
