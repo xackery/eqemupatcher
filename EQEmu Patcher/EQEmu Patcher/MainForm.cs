@@ -427,7 +427,6 @@ namespace EQEmu_Patcher
 
             path = path.Replace("/", "\\");
             if (path.Contains("\\")) { //Make directory if needed.
-                
                 string dir = Application.StartupPath + "\\" + path.Substring(0, path.LastIndexOf("\\"));
                 Directory.CreateDirectory(dir);
             }
@@ -475,6 +474,11 @@ namespace EQEmu_Patcher
             {
                 Application.DoEvents();
                 var path = entry.name.Replace("/", "\\");
+                if (!UtilityLibrary.IsPathChild(path))
+                {
+                    LogEvent("Path " + path + " might be outside of your Everquest directory. Skipping download to this location.");
+                    continue;
+                }
                 //See if file exists.
                 if (!File.Exists(path))
                 {
@@ -507,6 +511,11 @@ namespace EQEmu_Patcher
             {
                 foreach (var entry in filelist.deletes)
                 {
+                    if (!UtilityLibrary.IsPathChild(entry.name))
+                    {
+                        LogEvent("Path " + entry.name + " might be outside your Everquest directory. Skipping deletion of this file.");
+                        continue;
+                    }
                     if (File.Exists(entry.name))
                     {
                         LogEvent("Deleting " + entry.name + "...");
