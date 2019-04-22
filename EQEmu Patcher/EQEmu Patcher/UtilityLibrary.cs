@@ -112,5 +112,19 @@ namespace EQEmu_Patcher
             }
             return UtilityLibrary.GetMD5(files[0].FullName);
         }
+
+        // Returns true only if the path is a relative and does not contain ..
+        public static bool IsPathChild(string path)
+        {
+            if (Path.IsPathRooted(path))
+            {
+                return false;
+            }
+            if (path.Contains("..\\"))
+            {
+                return false;
+            }
+            return true;
+        }
     }
 }
