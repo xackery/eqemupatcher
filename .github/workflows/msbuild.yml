@@ -40,4 +40,4 @@ jobs:
         prerelease: false
         title: "Latest Release"
         files: |
-          D:\a\eqemupatcher\EQEmu Patcher\EQEmu Patcher\bin\Release\eqemupatcher.exe
+          D:\a\eqemupatcher\eqemupatcher\EQEmu Patcher\EQEmu Patcher\bin\Release\eqemupatcher.exe
