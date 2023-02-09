@@ -11,8 +11,8 @@ env:
   SOLUTION_FILE_PATH: .
   VERSION: 1.0.0.2
   BUILD_CONFIGURATION: Release
-  FILELIST_URL: ${{var.FILELIST_URL}}
-  SERVER_NAME: ${{var.SERVER_NAME}}
+  FILELIST_URL: ${{vars.FILELIST_URL}}
+  SERVER_NAME: ${{vars.SERVER_NAME}}
 
 jobs:
   build:
