@@ -26,13 +26,13 @@ jobs:
 
     - name: Restore NuGet packages
       working-directory: ${{env.GITHUB_WORKSPACE}}
-      run: nuget restore ${{env.SOLUTION_FILE_PATH}}
+      run: cd "EQEmu Patcher" && nuget restore "EQEmu Patcher.sln"
 
     - name: Build
       working-directory: ${{env.GITHUB_WORKSPACE}}\EQEMu Patcher\
       # Add additional options to the MSBuild command line here (like platform or verbosity level).
       # See https://docs.microsoft.com/visualstudio/msbuild/msbuild-command-line-reference
-      run: msbuild /m /p:Configuration=${{env.BUILD_CONFIGURATION}} /p:Version=${{env.VERSION}} /p:FILELIST_URL=${{env.FILELIST_URL}} /p:SERVER_NAME=${{env.SERVER_NAME}} ${{env.SOLUTION_FILE_PATH}}
+      run: cd "EQEmu Patcher" && msbuild /m /p:Configuration=${{env.BUILD_CONFIGURATION}} /p:Version=${{env.VERSION}} /p:FILELIST_URL=${{env.FILELIST_URL}} /p:SERVER_NAME=${{env.SERVER_NAME}} ${{env.SOLUTION_FILE_PATH}}
     - uses: "marvinpinto/action-automatic-releases@latest"
       name: Release
       with:
