@@ -33,9 +33,6 @@ jobs:
       # See https://docs.microsoft.com/visualstudio/msbuild/msbuild-command-line-reference
       run: cd "EQEmu Patcher" && msbuild /m /p:Configuration=${{env.BUILD_CONFIGURATION}} /p:Version=${{env.VERSION}} /p:FILELIST_URL=${{env.FILELIST_URL}} /p:SERVER_NAME="${{env.SERVER_NAME}}" "EQEmu Patcher.sln"
 
-    - name: Where is it
-      run: tree /f
-      
     - uses: "marvinpinto/action-automatic-releases@latest"
       name: Release
       with:
@@ -44,4 +41,4 @@ jobs:
         prerelease: false
         title: "Latest Release"
         files: |
-          D:\a\eqemupatcher\eqemupatcher\EQEmu Patcher\EQEmu Patcher\bin\Release\eqemupatcher.exe
+          D:/EQEmu Patcher/EQEmu Patcher/bin/Release/eqemupatcher.exe
