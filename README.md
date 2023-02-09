@@ -21,7 +21,7 @@ There are two parts to getting eqemupatcher working. First is getting filelistbu
 
 #### Filelistbuilder setup - Building the patch data.
 * *Optional:* If you have golang installed, you can compile filelistbuilder.go yourself by going into your EQEmu Patcher\flielistbuilder\ directory and compiling filelistbuilder.go. 
-* Download the filelistbuilder binary version that fits your server operating system here: https://github.com/xackery/eqemupatcher/releases
+* Download the filelistbuilder binary version that fits your server operating system here: https://github.com/xackery/filelistbuilder/releases
 * *Note:* It is important that your server generates the filelist.yml file, as an md5 can change when being hosted and cause challenges.
 * Copy the filelistbuilder binary from releases to your server into a fresh directory, for now on we'll call it filelistbuilder\. Note that this should be set in a PATH directory so it can be referred to from anywhere. Or if you're lazy, copy it in the SAME directory you have any filelistbuilder.yml files.
 * Make a subdirectory representing clients you plan to support, e.g. filelistbuilder\rof\ and filelistbuilder\und\
