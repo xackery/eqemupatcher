@@ -10,7 +10,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>EQEmu_Patcher</RootNamespace>
     <AssemblyName>eqemupatcher</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <NuGetPackageImportStamp>
@@ -86,6 +86,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BetterWebClient.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="ClientVersion.cs" />
     <Compile Include="IniLibrary.cs" />
     <Compile Include="MainForm.cs">
