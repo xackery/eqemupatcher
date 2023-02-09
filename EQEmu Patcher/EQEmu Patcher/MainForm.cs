@@ -122,9 +122,14 @@ namespace EQEmu_Patcher
             string response = DownloadFile(webUrl, "filelist.yml");
             if (response != "")
             {
-                MessageBox.Show("Failed to fetch filelist from " + webUrl + ": " + response);
-                this.Close();
-                return;
+                webUrl = filelistUrl + "/filelist_" + suffix + ".yml";
+                response = DownloadFile(webUrl, "filelist.yml");
+                if (response != "")
+                {
+                    MessageBox.Show("Failed to fetch filelist from " + webUrl + ": " + response);
+                    this.Close();
+                    return;
+                }
             }
 
             txtList.Visible = false;
