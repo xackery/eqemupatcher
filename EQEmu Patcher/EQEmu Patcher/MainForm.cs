@@ -5,6 +5,7 @@ using System.Data;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -22,8 +23,8 @@ namespace EQEmu_Patcher
          *  EDIT THESE VARIABLES FOR EACH SERVER
          * 
          ****/
-        public static string serverName = "Rebuild EQ";
-        public static string filelistUrl = "https://patch.clumsysworld.com/";
+        public static string serverName;
+        public static string filelistUrl;
         public static bool defaultAutoPlay = false; //When a user runs this first time, what should Autoplay be set to?
         public static bool defaultAutoPatch = false; //When a user runs this first time, what should Autopatch be set to?
 
@@ -55,6 +56,16 @@ namespace EQEmu_Patcher
 
         private void MainForm_Load(object sender, EventArgs e)
         {
+            serverName = Assembly.GetExecutingAssembly().GetCustomAttribute<ServerName>().Value;
+            if (serverName == "") {
+                serverName = "EQEmu Patcher";
+            }
+            filelistUrl = Assembly.GetExecutingAssembly().GetCustomAttribute<FileListUrl>().Value;
+            if (filelistUrl == "")
+            {
+                filelistUrl = "https://patch.clumsysworld.com/";
+            }
+
             if (MainForm.defaultAutoPlay || MainForm.defaultAutoPatch)
             {
                 Console.WriteLine("Auto default enabled");
