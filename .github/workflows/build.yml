@@ -40,7 +40,7 @@ jobs:
         cd "rof"
         C:\msys64\usr\bin\wget.exe --no-verbose https://github.com/xackery/filelistbuilder/releases/latest/download/filelistbuilder-win-x64.exe
         .\filelistbuilder-win-x64.exe "rof" "${{env.STORAGE_URL}}" "../EQEmu Patcher/EQEmu Patcher/bin/Release/eqemupatcher.exe"
-        move ../EQEmu Patcher/EQEmu Patcher/bin/Release/eqemupatcher.exe ../EQEmu Patcher/EQEmu Patcher/bin/Release/${{env.FILE_NAME}}.exe
+        move "../EQEmu Patcher/EQEmu Patcher/bin/Release/eqemupatcher.exe" "../EQEmu Patcher/EQEmu Patcher/bin/Release/${{env.FILE_NAME}}.exe"
         move eqemupatcher-hash.txt ${{env.FILE_NAME}}-hash.txt
 
     - name: Release
