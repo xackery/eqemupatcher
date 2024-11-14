@@ -461,7 +461,7 @@
 	</Label>
 	<Label item="Player_Current_HP">
 		<ScreenID>Player_Current_HP</ScreenID>
-		<EQType>17</EQType>
+		<EQType>18</EQType>
 		<RelativePosition>true</RelativePosition>
 		<Text>99999</Text>
 		<TextColor>
