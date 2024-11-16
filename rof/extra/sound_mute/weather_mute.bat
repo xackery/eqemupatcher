@@ -12,7 +12,7 @@ if exist "..\..\sounds\rain_hvy_leaves_lp.wav" (
 		copy "..\..\sounds\rain_hvy_leaves_lp.wav" "weather\original\rain_hvy_leaves_lp.wav" /Y
 	)
 )
-copy weather\rain_hvy_leaves_lp.wav ..\..\sounds\rain_hvy_leaves_lp.wav /Y
+copy blank.wav ..\..\sounds\rain_hvy_leaves_lp.wav /Y
 
 if exist "..\..\sounds\rain_wood_roof_lp.wav" (
 	for %%F in ("..\..\sounds\rain_wood_roof_lp.wav") do (
@@ -23,7 +23,7 @@ if exist "..\..\sounds\rain_wood_roof_lp.wav" (
 		copy "..\..\sounds\rain_wood_roof_lp.wav" "weather\original\rain_wood_roof_lp.wav" /Y
 	)
 )
-copy weather\rain_wood_roof_lp.wav ..\..\sounds\rain_wood_roof_lp.wav /Y
+copy blank.wav ..\..\sounds\rain_wood_roof_lp.wav /Y
 
 if exist "..\..\sounds\rainloop.wav" (
 	for %%F in ("..\..\sounds\rainloop.wav") do (
@@ -34,7 +34,7 @@ if exist "..\..\sounds\rainloop.wav" (
 		copy "..\..\sounds\rainloop.wav" "weather\original\rainloop.wav" /Y
 	)
 )
-copy weather\rainloop.wav ..\..\sounds\rainloop.wav /Y
+copy blank.wav ..\..\sounds\rainloop.wav /Y
 
 if exist "..\..\sounds\thunder1.wav" (
 	for %%F in ("..\..\sounds\thunder1.wav") do (
@@ -45,7 +45,7 @@ if exist "..\..\sounds\thunder1.wav" (
 		copy "..\..\sounds\thunder1.wav" "weather\original\thunder1.wav" /Y
 	)
 )
-copy weather\thunder1.wav ..\..\sounds\thunder1.wav /Y
+copy blank.wav ..\..\sounds\thunder1.wav /Y
 
 if exist "..\..\sounds\thunder2.wav" (
 	for %%F in ("..\..\sounds\thunder2.wav") do (
@@ -56,6 +56,6 @@ if exist "..\..\sounds\thunder2.wav" (
 		copy "..\..\sounds\thunder2.wav" "weather\original\thunder2.wav" /Y
 	)
 )
-copy weather\thunder2.wav ..\..\sounds\thunder2.wav /Y
+copy blank.wav ..\..\sounds\thunder2.wav /Y
 echo Completed. Review the output above for any errors.
 pause > nul
