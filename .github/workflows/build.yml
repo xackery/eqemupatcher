@@ -23,14 +23,6 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v3
 
-    - name: Generate filelist
-      run: |
-        cd "rof"
-        C:\msys64\usr\bin\wget.exe --no-verbose https://github.com/xackery/filelistbuilder/releases/latest/download/filelistbuilder-win-x64.exe
-        .\filelistbuilder-win-x64.exe "rof" "${{env.STORAGE_URL}}" "../EQEmu Patcher/EQEmu Patcher/bin/Release/eqemupatcher.exe"
-        move "../EQEmu Patcher/EQEmu Patcher/bin/Release/eqemupatcher.exe" "../EQEmu Patcher/EQEmu Patcher/bin/Release/${{env.FILE_NAME}}.exe"
-        move eqemupatcher-hash.txt ${{env.FILE_NAME}}-hash.txt
-    
     - name: Set up Node.js
       uses: actions/setup-node@v3
       with:
@@ -39,7 +31,7 @@ jobs:
     - name: Install dependencies
       run: npm install
 
-    - name: Generate manifest.json
+    - name: Generate manifest
       run: npm start
 
     - name: Add MSBuild to PATH
@@ -54,6 +46,14 @@ jobs:
       run: |
         cd "EQEmu Patcher" && msbuild /m /p:Configuration=${{env.BUILD_CONFIGURATION}} /p:VERSION="${{ env.VERSION }}.${{ github.run_number }}" /p:FILELIST_URL=${{env.FILELIST_URL}} /p:SERVER_NAME="${{env.SERVER_NAME}}" /p:FILE_NAME="${{env.FILE_NAME}}" "EQEmu Patcher.sln"
 
+    - name: Generate filelist
+      run: |
+        cd "rof"
+        C:\msys64\usr\bin\wget.exe --no-verbose https://github.com/xackery/filelistbuilder/releases/latest/download/filelistbuilder-win-x64.exe
+        .\filelistbuilder-win-x64.exe "rof" "${{env.STORAGE_URL}}" "../EQEmu Patcher/EQEmu Patcher/bin/Release/eqemupatcher.exe"
+        move "../EQEmu Patcher/EQEmu Patcher/bin/Release/eqemupatcher.exe" "../EQEmu Patcher/EQEmu Patcher/bin/Release/${{env.FILE_NAME}}.exe"
+        move eqemupatcher-hash.txt ${{env.FILE_NAME}}-hash.txt
+  
     - name: Release
       uses: "marvinpinto/action-automatic-releases@latest"
       if: github.ref == 'refs/heads/master'
