@@ -3,6 +3,8 @@
 ###############################################################################
 * text eol=crlf
 *.txt binary
+*.html binary
+*.emt binary
 *.eff binary
 *.xml binary
 *.dll binary
