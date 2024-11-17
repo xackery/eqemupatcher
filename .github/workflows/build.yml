@@ -42,6 +42,17 @@ jobs:
         .\filelistbuilder-win-x64.exe "rof" "${{env.STORAGE_URL}}" "../EQEmu Patcher/EQEmu Patcher/bin/Release/eqemupatcher.exe"
         move "../EQEmu Patcher/EQEmu Patcher/bin/Release/eqemupatcher.exe" "../EQEmu Patcher/EQEmu Patcher/bin/Release/${{env.FILE_NAME}}.exe"
         move eqemupatcher-hash.txt ${{env.FILE_NAME}}-hash.txt
+    
+    - name: Set up Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: 20
+
+    - name: Install dependencies
+      run: npm install
+
+    - name: Generate manifest
+      run: npm start
 
     - name: Release
       uses: "marvinpinto/action-automatic-releases@latest"
@@ -55,3 +66,4 @@ jobs:
           EQEmu Patcher/EQEmu Patcher/bin/Release/${{env.FILE_NAME}}.exe
           rof/filelist_rof.yml
           rof/${{env.FILE_NAME}}-hash.txt
+          manifest.json

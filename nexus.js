@@ -1,10 +1,33 @@
 import fs from "node:fs";
 import path from "node:path";
 import xxhash from "xxhash-wasm";
-import manifest from "./manifest.json" assert { type: 'json' };
+
+const manifestTemplate = {
+  shortName: "",
+  longName: "",
+  customFilesUrl: "",
+  filesUrlPrefix: "",
+  version: "0.1",
+  website: "",
+  description: "",
+  hosts: [],
+  required: [],
+  files: {},
+};
 
 (async () => {
   try {
+      let manifest;
+      try {
+        manifest = await import("./manifest.json", { assert: { type: "json" } });
+        manifest = manifest.default;
+      } catch {
+        console.log(
+          "Manifest file did not exist. Creating a new file from template."
+        );
+        manifest = manifestTemplate;
+      }
+  
     const { create64 } = await xxhash();
     const files = getFilesRecursively("./rof");
     const newFiles = files.reduce(
@@ -15,12 +38,6 @@ import manifest from "./manifest.json" assert { type: 'json' };
       {}
     );
 
-    console.log("File Hash:", manifest.files[0]);
-    for (const [key, entry] of Object.entries(manifest.files)) {
-      if (newFiles[key] !== entry) {
-        console.log(`Updated ${key} from ${entry} to ${newFiles[key]}`);
-      }
-    }
     manifest.files = newFiles;
     fs.writeFileSync("./manifest.json", JSON.stringify(manifest, null, 4));
   } catch (error) {
