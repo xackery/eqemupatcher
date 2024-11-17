@@ -23,18 +23,6 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v3
 
-    - name: Add MSBuild to PATH
-      uses: microsoft/setup-msbuild@v1.1.3
-
-    - name: Restore NuGet packages
-      working-directory: ${{env.GITHUB_WORKSPACE}}
-      run: cd "EQEmu Patcher" && nuget restore "EQEmu Patcher.sln"
-
-    - name: Build
-      working-directory: ${{env.GITHUB_WORKSPACE}}
-      run: |
-        cd "EQEmu Patcher" && msbuild /m /p:Configuration=${{env.BUILD_CONFIGURATION}} /p:VERSION="${{ env.VERSION }}.${{ github.run_number }}" /p:FILELIST_URL=${{env.FILELIST_URL}} /p:SERVER_NAME="${{env.SERVER_NAME}}" /p:FILE_NAME="${{env.FILE_NAME}}" "EQEmu Patcher.sln"
-
     - name: Generate filelist
       run: |
         cd "rof"
@@ -53,6 +41,18 @@ jobs:
 
     - name: Generate manifest.json
       run: npm start
+
+    - name: Add MSBuild to PATH
+      uses: microsoft/setup-msbuild@v1.1.3
+
+    - name: Restore NuGet packages
+      working-directory: ${{env.GITHUB_WORKSPACE}}
+      run: cd "EQEmu Patcher" && nuget restore "EQEmu Patcher.sln"
+
+    - name: Build
+      working-directory: ${{env.GITHUB_WORKSPACE}}
+      run: |
+        cd "EQEmu Patcher" && msbuild /m /p:Configuration=${{env.BUILD_CONFIGURATION}} /p:VERSION="${{ env.VERSION }}.${{ github.run_number }}" /p:FILELIST_URL=${{env.FILELIST_URL}} /p:SERVER_NAME="${{env.SERVER_NAME}}" /p:FILE_NAME="${{env.FILE_NAME}}" "EQEmu Patcher.sln"
 
     - name: Release
       uses: "marvinpinto/action-automatic-releases@latest"
