@@ -51,7 +51,7 @@ jobs:
     - name: Install dependencies
       run: npm install
 
-    - name: Generate manifest
+    - name: Generate manifest.json
       run: npm start
 
     - name: Release
