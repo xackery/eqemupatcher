@@ -784,7 +784,7 @@
       <Pieces>MW_Recover_Button</Pieces>
       <Pieces>MW_Done_Button</Pieces>
 	  <Pieces>MW_Retrieve_Button</Pieces>
-	  <Pieces>MW_Retrieve_All_Button</Pieces>
+	  <!--<Pieces>MW_Retrieve_All_Button</Pieces> -->
 	  <Pieces>MW_Send_Button</Pieces>		
 	  <Pieces>MW_Send_To_Label</Pieces>
 	  <Pieces>MW_Send_To_Edit</Pieces>
