@@ -3,6 +3,11 @@
 ###############################################################################
 * text eol=crlf
 *.txt binary
+*.json binary
+*.bat binary
+*.gitignore binary
+*.html binary
+*.emt binary
 *.eff binary
 *.xml binary
 *.dll binary
