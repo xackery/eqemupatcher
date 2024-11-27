@@ -32,3 +32,5 @@ gfo,gfo
 gfr,gfr
 gra,gra
 fgt,fgt
+lmm,lmm_chr
+lmm,lmf_chr
