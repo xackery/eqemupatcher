@@ -13,6 +13,15 @@
         "disableMapWindow": false,
         "disableLuclinModels": false,
         "disabledBazaarWindow": false,
-        "disableHeroic": false
+        "disableHeroic": false,
+        "disableFoodDrinkSpam": false,
+        "enableMaxHPFix": false,
+        "enableAnyClassShield": false,
+        "enableCombatDamageDoubleAppliedFix": false,
+        "enableUltravision": false,
+        "enableOldModelHorseSupport": false
+    },
+    "server": {
+        "customFilesKey": "theheroesjourney"
     }
 }
