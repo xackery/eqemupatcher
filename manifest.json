@@ -10,7 +10,8 @@
         "66.70.227.48"
     ],
     "required": [
-        "dinput8.dll"
+        "dinput8.dll",
+        "config.json"
     ],
     "files": {}
 }
