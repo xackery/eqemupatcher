@@ -29,27 +29,36 @@ namespace EQEmu_Patcher
                 using (var stream = await response.Content.ReadAsStreamAsync())
                 {
                     var outPath = outFile.Replace("/", "\\");
-                    if (outFile.Contains("\\")) { //Make directory if needed.
+                    if (outFile.Contains("\\"))
+                    { //Make directory if needed.
                         string dir = System.IO.Path.GetDirectoryName(Application.ExecutablePath) + "\\" + outFile.Substring(0, outFile.LastIndexOf("\\"));
                         Directory.CreateDirectory(dir);
                     }
                     outPath = System.IO.Path.GetDirectoryName(Application.ExecutablePath) + "\\" + outFile;
 
-                    using (var w = File.Create(outPath)) {
+                    using (var w = File.Create(outPath))
+                    {
                         await stream.CopyToAsync(w, 81920, cts.Token);
                     }
                 }
-            } catch(ArgumentNullException e)
-            {
-                return "ArgumentNullExpception: " + e.Message;
-            } catch(HttpRequestException e)
-            {
-                return "HttpRequestException: " + e.Message;
-            } catch (Exception e)
-            {
-                return "Exception: " + e.Message;
             }
-            return "";
+            catch (ArgumentNullException e)
+            {
+                return "ArgumentNullException: " + e.Message;
+            }
+            catch (WebException e)
+            {
+                return "WebException (" + e.Status + "): " + e.Message + " (" + e.GetBaseException() + ")";
+            }
+            catch (HttpRequestException e)
+            {
+                return "HttpRequestException: " + e.Message + " (" + e.GetBaseException() + ")";
+            }
+            catch (Exception e)
+            {
+                return "Exception: " + e.Message + " (" + e.GetBaseException() + ")";
+            }
+            return "";      
         }
 
         // Download will grab a remote URL's file and return the data as a byte array
@@ -117,7 +126,7 @@ namespace EQEmu_Patcher
         {
             // get the absolute path
             var absPath = Path.GetFullPath(path);
-            var basePath = Path.GetDirectoryName(Application.ExecutablePath); 
+            var basePath = Path.GetDirectoryName(Application.ExecutablePath);
             // check if absPath contains basePath
             if (!absPath.Contains(basePath))
             {
