@@ -17,6 +17,7 @@
 2,0,TFFFE,gatesequip,Loading Character Equipment Files
 3,0,TFFFC,wof_v2_chr,Loading New Chokidai
 3,0,TFFFC,hohonorb_chr,Loading Characters
+3,0,TFFFC,poair_chr,Loading Characters
 3,0,TFFFC,rap_chr,Loading Characters
 3,0,TFFFC,Dpm_chr,Loading Characters
 3,0,TFFFC,Dpf_chr,Loading Characters
