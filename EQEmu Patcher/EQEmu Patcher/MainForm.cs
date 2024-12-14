@@ -523,8 +523,6 @@ namespace EQEmu_Patcher
                     StatusLibrary.Log($"Failed to download {entry.name} ({generateSize(entry.size)}) from {url} and {filelist.downloadprefix}, 404 error (website may be down?)");
                     return;
                 }
-                StatusLibrary.Log($"Failed to download {entry.name} ({generateSize(entry.size)}) from {url} and and {filelist.downloadprefix}: {resp}");
-                return;
             }
             StatusLibrary.Log($"{entry.name} ({generateSize(entry.size)})");
 
