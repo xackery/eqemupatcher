@@ -1,0 +1,17 @@
+16
+dke,dke
+btn,btn
+myg,myg
+mmv,mmv_chr
+lmf,lmf_chr
+lmm,lmm_chr
+dvm,mistmoore_chr
+dru,fearplane_chr
+vst,karnor_chr
+qcf,qeynos_chr
+zeb,potimeb_chr2
+zeb,zeb
+ZEB,ZEB
+ZEB,potimeb_chr2
+onm,onm
+cdm,cdm

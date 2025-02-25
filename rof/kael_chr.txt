@@ -1,0 +1,5 @@
+4
+myg,myg
+cdm,cdm
+gen,gen
+GEN,GEN
