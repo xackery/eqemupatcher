@@ -8,6 +8,7 @@
 *.sln.docstates
 
 rof/filelist_rof.yml
+filelist_rof.yml
 
 node_modules/
 
