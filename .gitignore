@@ -7,6 +7,8 @@
 *.userosscache
 *.sln.docstates
 
+rof/filelist_rof.yml
+
 node_modules/
 
 # User-specific files (MonoDevelop/Xamarin Studio)
