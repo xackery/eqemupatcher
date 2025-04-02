@@ -1,8 +1,3 @@
-1,1,TFFFC,af8_chr,Loading Characters
-1,1,TFFFC,af7_chr,Loading Characters
-1,1,TFFFC,af4_chr,Loading Characters
-1,1,TFFFC,af3_chr,Loading Characters
-1,1,TFFFC,af1_chr,Loading Characters
 1,1,TFFFE,gequip_thj,Loading THJ Equipment Files
 1,1,TFFFE,gequip_patch,Loading THJ Equipment Files
 1,1,TFFFE,Equipment-01.eqg,Loading Character Equipment Files
