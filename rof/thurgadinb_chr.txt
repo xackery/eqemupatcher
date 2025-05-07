@@ -1,0 +1,7 @@
+6
+myg,myg
+pma,pma
+drg,drg
+mph,mph
+cst,cst
+cok,thurgadinb2_chr
