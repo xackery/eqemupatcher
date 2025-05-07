@@ -351,6 +351,32 @@
 		</TextColor>
 		<Template>BDT_Normal</Template>
 	</Button>
+
+	<Button item="MapFiltersBtn">
+		<ScreenID>MapFiltersBtn</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<Location>
+			<X>0</X>
+			<Y>310</Y>
+		</Location>
+		<Size>
+			<CX>63</CX>
+			<CY>22</CY>
+		</Size>
+		<Style_VScroll>false</Style_VScroll>
+		<Style_HScroll>false</Style_HScroll>
+		<Style_Transparent>false</Style_Transparent>
+		<Style_Checkbox>true</Style_Checkbox>
+		<Text>Map Filters</Text>
+		<TooltipReference></TooltipReference>
+		<TextColor>
+			<R>255</R>
+			<G>255</G>
+			<B>255</B>
+		</TextColor>
+		<Template>BDT_Normal</Template>
+	</Button>
+
 	<Button item="MVW_PanResetButton">
 		<ScreenID>MVW_PanResetButton</ScreenID>
 		<RelativePosition>true</RelativePosition>
@@ -834,7 +860,7 @@
 		<RelativePosition>true</RelativePosition>
 		<Location>
 			<X>20</X>
-			<Y>378</Y>
+			<Y>400</Y>
 		</Location>
 		<Size>
 			<CX>22</CX>
@@ -871,7 +897,7 @@
 		</Size>
 		<Location>
 			<X>2</X>
-			<Y>302</Y>
+			<Y>334</Y>
 		</Location>
 	</Label>
 	<Label item="MVW_MaxZLabel">
@@ -889,7 +915,7 @@
 		</Size>
 		<Location>
 			<X>2</X>
-			<Y>337</Y>
+			<Y>369</Y>
 		</Location>
 	</Label>
 	<Editbox item="MVW_MinZEditBox">
@@ -898,7 +924,7 @@
 		<RelativePosition>true</RelativePosition>
 		<Location>
 			<X>0</X>
-			<Y>317</Y>
+			<Y>349</Y>
 		</Location>
 		<Size>
 			<CX>63</CX>
@@ -918,7 +944,7 @@
 		<RelativePosition>true</RelativePosition>
 		<Location>
 			<X>0</X>
-			<Y>352</Y>
+			<Y>384</Y>
 		</Location>
 		<Size>
 			<CX>63</CX>
@@ -971,6 +997,7 @@
 		<Pieces>MVW_ZFilterButton</Pieces>
 		<Pieces>MVW_PanResetButton</Pieces>
 		<Pieces>MVW_LabelsToggleButton</Pieces>
+		<Pieces>MapFiltersBtn</Pieces>
 		<Pieces>MVW_Layer0Button</Pieces>
 	</Screen>
 	<Button item="MVW_SearchHideButton">
