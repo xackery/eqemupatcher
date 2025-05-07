@@ -7,7 +7,7 @@
 		<RelativePosition>true</RelativePosition>
 		<Location>
 			<X>530</X>
-			<Y>220</Y>
+			<Y>236</Y>
 		</Location>
 		<Size>
 			<CX>50</CX>
@@ -25,13 +25,74 @@
 		</TextColor>
 		<Template>BDT_Square</Template>
 	</Button>
+
+	<Button item="AAW_TrainAllButton">
+		<ScreenID>TrainAllButton</ScreenID>
+		<Font>3</Font>
+		<RelativePosition>true</RelativePosition>
+		<Location>
+		  <X>520</X>
+		  <Y>212</Y>
+		</Location>
+		<Size>
+		  <CX>16</CX>
+		  <CY>16</CY>
+		</Size>
+		<AutoStretch>false</AutoStretch>
+		<Style_VScroll>false</Style_VScroll>
+		<Style_HScroll>false</Style_HScroll>
+		<Style_Transparent>false</Style_Transparent>
+		<TooltipReference>Purchase all available ranks of the selected ability</TooltipReference>
+		<Style_Border>false</Style_Border>
+		<Style_Checkbox>true</Style_Checkbox>
+		<Template>BDT_Checkbox</Template>
+	  </Button>
+	<Label item="TrainAll_Label">
+		<ScreenID>TrainAll_Label</ScreenID>
+		<Font>4</Font>
+		<RelativePosition>true</RelativePosition>
+		<Location>
+		  <X>540</X>
+		  <Y>212</Y>
+		</Location>
+		<Size>
+		  <CX>200</CX>
+		  <CY>25</CY>
+		</Size>
+		<AutoStretch>false</AutoStretch>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<LeftAnchorToLeft>true</LeftAnchorToLeft>
+		<BottomAnchorToTop>true</BottomAnchorToTop>
+		<RightAnchorToLeft>true</RightAnchorToLeft>
+		<TopAnchorOffset>0</TopAnchorOffset>
+		<BottomAnchorOffset>0</BottomAnchorOffset>
+		<LeftAnchorOffset>0</LeftAnchorOffset>
+		<RightAnchorOffset>0</RightAnchorOffset>
+		<Text>Train All</Text>
+		<TextColor>
+		  <Alpha>255</Alpha>
+		  <R>255</R>
+		  <G>255</G>
+		  <B>255</B>
+		</TextColor>
+		<Style_VScroll>false</Style_VScroll>
+		<Style_HScroll>false</Style_HScroll>
+		<Style_Transparent>false</Style_Transparent>
+		<Style_Border>false</Style_Border>
+		<NoWrap>false</NoWrap>
+		<AlignCenter>false</AlignCenter>
+		<AlignRight>false</AlignRight>
+	</Label>
+
+
+
 	<Button item="AAW_HotButton">
 		<ScreenID>HotButton</ScreenID>
 		<!--<Font>3</Font>-->
 		<RelativePosition>true</RelativePosition>
 		<Location>								  
 			<X>530</X>
-			<Y>256</Y>
+			<Y>272</Y>
 		</Location>
 		<Size>
 			<CX>50</CX>
@@ -49,6 +110,7 @@
 		</TextColor>
 		<Template>BDT_Square</Template>
 	</Button>
+
 	<Label item="AAW_LoadSaveLabel">
 		<ScreenID>AAW_LoadSaveLabel</ScreenID>
 		<RelativePosition>true</RelativePosition>
@@ -869,6 +931,8 @@
 		<Pieces>AAW_MonsterLabel</Pieces>
 		<Pieces>AAW_CurrentCount</Pieces>
 		<Pieces>AAW_ExpGauge</Pieces>
+		<Pieces>TrainAll_Label</Pieces>
+		<Pieces>AAW_TrainAllButton</Pieces>
 		<Pieces>AAW_TrainButton</Pieces>
 		<Pieces>AAW_HotButton</Pieces>
 		<Pieces>AAW_LoadSaveLabel</Pieces>
