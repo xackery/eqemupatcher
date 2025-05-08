@@ -132,7 +132,7 @@
 			<CX>250</CX>
 			<CY>15</CY>
 		</Size>
-		<Text>STATION USERNAME</Text>
+		<Text>EQEMULATOR USERNAME</Text>
 		<TextColor>
 				<R>255</R>
 				<G>255</G>
@@ -154,7 +154,7 @@
 			<CX>250</CX>
 			<CY>15</CY>
 		</Size>
-		<Text>STATION PASSWORD</Text>
+		<Text>EQEMULATOR PASSWORD</Text>
 		<TextColor>
 				<R>255</R>
 				<G>255</G>
@@ -241,13 +241,13 @@
 		<RelativePosition>true</RelativePosition>
 		<Location>
 			<X>10</X>
-			<Y>400</Y>
+			<Y>350</Y>
 		</Location>
 		<Size>
 			<CX>280</CX>
-			<CY>30</CY>
+			<CY>90</CY>
 		</Size>
-		<Text>EverQuest is a registered trademark of Sony Online Entertainment LLC.</Text>
+		<Text>EverQuest is a registered trademark of Sony Online Entertainment LLC. EQEmulator and The Heroes’ Journey are not associated or affiliated in any way with Daybreak Game Company, LLC or its subsidiaries and predecessors.</Text>
 		<TextColor>
 				<R>255</R>
 				<G>255</G>
@@ -311,7 +311,7 @@
 		<Pieces>EQLS_MainBG06</Pieces>
 		<Pieces>LOGIN_ConnectButton</Pieces>
 		<Pieces>LOGIN_CancelButton</Pieces>
-		<Pieces>LOGIN_ChatButton</Pieces>
+		<!-- <Pieces>LOGIN_ChatButton</Pieces> -->
 		<Pieces>LOGIN_UsernameEdit</Pieces>
 		<Pieces>LOGIN_PasswordEdit</Pieces>
 		<Pieces>LOGIN_UsernameLabel</Pieces>
