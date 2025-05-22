@@ -1,4 +1,4 @@
-33
+39
 liz,liz_chr
 skn,skn_chr
 mos,mos_chr
@@ -34,3 +34,7 @@ gra,gra
 fgt,fgt
 lmm,lmm_chr
 lmm,lmf_chr
+sbu,sbu_chr
+mcr,mcr_chr
+bkd,bkd
+
