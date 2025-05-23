@@ -202,7 +202,7 @@
 		<ScreenID>MVW_Find</ScreenID>
 		<RelativePosition>true</RelativePosition>
 		<Location>
-			<X>160</X>
+			<X>120</X>
 			<Y>0</Y>
 		</Location>
 		<Size>
@@ -224,7 +224,7 @@
 		<ScreenID>MVW_EndFind</ScreenID>
 		<RelativePosition>true</RelativePosition>
 		<Location>
-			<X>160</X>
+			<X>120</X>
 			<Y>0</Y>
 		</Location>
 		<Size>
@@ -246,7 +246,7 @@
 		<ScreenID>MVW_FindAutoZoom</ScreenID>
 		<RelativePosition>true</RelativePosition>
 		<Location>
-			<X>250</X>
+			<X>210</X>
 			<Y>0</Y>
 		</Location>
 		<Size>
@@ -264,6 +264,7 @@
 		<TooltipReference>Toggle the map auto-zooming on your find path.</TooltipReference>
 		<Template>BDT_Normal</Template>
 	</Button>
+
 	<Button item="MVW_ShowGroupButton">
 		<ScreenID>MVW_ShowGroupButton</ScreenID>
 		<RelativePosition>true</RelativePosition>
@@ -273,12 +274,57 @@
 		<BottomAnchorToTop>true</BottomAnchorToTop>
 		<BottomAnchorOffset>22</BottomAnchorOffset>
 		<LeftAnchorToLeft>false</LeftAnchorToLeft>
-		<LeftAnchorOffset>90</LeftAnchorOffset>
+		<LeftAnchorOffset>60</LeftAnchorOffset>
 		<RightAnchorToLeft>false</RightAnchorToLeft>
 		<RightAnchorOffset>0</RightAnchorOffset>
 		<Style_Checkbox>true</Style_Checkbox>
-		<Text>Show Group</Text>
+		<Text>Group</Text>
 		<TooltipReference>Toggle display of group members in the current zone.</TooltipReference>
+		<TextColor>
+			<R>255</R>
+			<G>255</G>
+			<B>255</B>
+		</TextColor>
+		<Template>BDT_Normal</Template>
+	</Button>
+
+	<Button item="ShowPCsButton">
+		<ScreenID>ShowPCsButton</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorOffset>0</TopAnchorOffset>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<BottomAnchorToTop>true</BottomAnchorToTop>
+		<BottomAnchorOffset>22</BottomAnchorOffset>
+		<LeftAnchorToLeft>false</LeftAnchorToLeft>
+		<LeftAnchorOffset>130</LeftAnchorOffset>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<RightAnchorOffset>70</RightAnchorOffset>
+		<Style_Checkbox>true</Style_Checkbox>
+		<Text>Players</Text>
+		<TooltipReference>Toggle display of players in the current zone.</TooltipReference>
+		<TextColor>
+			<R>255</R>
+			<G>255</G>
+			<B>255</B>
+		</TextColor>
+		<Template>BDT_Normal</Template>
+	</Button>
+	<Button item="ShowNPCsButton">
+		<ScreenID>SnowNPCsButton</ScreenID>
+		<RelativePosition>true</RelativePosition>
+		<AutoStretch>true</AutoStretch>
+		<TopAnchorOffset>0</TopAnchorOffset>
+		<TopAnchorToTop>true</TopAnchorToTop>
+		<BottomAnchorToTop>true</BottomAnchorToTop>
+		<BottomAnchorOffset>22</BottomAnchorOffset>
+		<LeftAnchorToLeft>false</LeftAnchorToLeft>
+		<LeftAnchorOffset>200</LeftAnchorOffset>
+		<RightAnchorToLeft>false</RightAnchorToLeft>
+		<RightAnchorOffset>140</RightAnchorOffset>
+		<Style_Checkbox>true</Style_Checkbox>
+		<Text>NPCs</Text>
+		<TooltipReference>Toggle display of NPC Labels in the current zone.</TooltipReference>
 		<TextColor>
 			<R>255</R>
 			<G>255</G>
@@ -303,6 +349,9 @@
 		<Pieces>MVW_EndFind</Pieces>
 		<Pieces>MVW_FindAutoZoom</Pieces>
 		<Pieces>MVW_ShowGroupButton</Pieces>
+		<Pieces>ShowPCsButton</Pieces>
+		<Pieces>ShowNPCsButton</Pieces>
+
 	</Screen>
 	<Button item="MVW_Layer0Button">
 		<ScreenID>MVW_Layer0Button</ScreenID>
@@ -997,7 +1046,6 @@
 		<Pieces>MVW_ZFilterButton</Pieces>
 		<Pieces>MVW_PanResetButton</Pieces>
 		<Pieces>MVW_LabelsToggleButton</Pieces>
-		<Pieces>MapFiltersBtn</Pieces>
 		<Pieces>MVW_Layer0Button</Pieces>
 	</Screen>
 	<Button item="MVW_SearchHideButton">
