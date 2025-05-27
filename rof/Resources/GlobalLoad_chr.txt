@@ -1,4 +1,4 @@
-38
+40
 liz,liz_chr
 skn,skn_chr
 mos,mos_chr
@@ -15,6 +15,7 @@ rea,rea_chr
 cst,cst_chr
 gem,paineel_chr
 sca,eastkarana_chr
+sbu,stonebrunt_chr
 coc,dreadlands_chr
 cwr,cwr
 scc,scc
@@ -37,3 +38,4 @@ lmm,lmf_chr
 sbu,sbu_chr
 mcr,mcr_chr
 bkd,bkd
+
