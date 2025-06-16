@@ -1,4 +1,4 @@
-<c "#35db24">Lady Vox</c><br>
+<c "#35db24">Lady Vox</c><br> 
 <br>
 <c "#ffd700">Information</c>:<br>
 Vox, the frost dragon, was banished from the Claws of Veeshan for plotting with Lord Nagafen to breed another prismatic dragon like Kerafyrm.

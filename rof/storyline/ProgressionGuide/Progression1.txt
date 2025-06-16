@@ -1,4 +1,4 @@
-Progression 1 - Classic
+Progression 1 - Classic 
 <br>(Stuck at level 50?)<br><br><br>
 In order to progress from one expansion to the next on The Hero's Journey, you must do one of two things. <br>
 Either be a <c "#ffd700">Hero</c>, and slay specific bosses, or take the path of the <c "#ffd700">Explorer</c> who gathers specific items (<c "#ffd700">must be of Legendary quality</c>) to progress to the next expansion.
@@ -25,5 +25,5 @@ Once you have gathered all of the items. Hand them to the NPC in the Bazaar.
 <br><br><br>
 <a href="file:///storyline/storyProgressionGuide.txt">Go Back</a>
 <br><br><br>
-
+ 
 	
